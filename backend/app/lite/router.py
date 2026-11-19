@@ -32,6 +32,7 @@ TASK_LABELS = {"understand": "Understanding your request", "rank": "Ranking & ex
 class Keys:
     gemini: str | None = None
     groq: str | None = None
+    google: str | None = None  # Google Maps Platform: Places (ratings, reviews, hours) + Routes (traffic)
 
     @property
     def any(self) -> bool:

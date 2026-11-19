@@ -77,7 +77,7 @@ export interface Itinerary {
   end: string;
   stops: ItineraryStop[];
   total_travel_minutes: number;
-  travel_method: "osrm" | "estimate";
+  travel_method: "google_traffic" | "osrm" | "estimate";
   skipped: string[];
   notes: string[];
 }
@@ -136,6 +136,37 @@ export interface RecommendationItem {
   image_url?: string | null;
   image_attribution?: string | null;
   wiki_url?: string | null;
+  travel?: Travel | null;
+  opening?: Opening | null;
+  review_summary?: ReviewSummary | null;
+  maps_url?: string | null;
+}
+
+export type TrafficLevel = "light" | "moderate" | "heavy" | "unknown";
+
+/** Drive from the traveller at the planned departure; google_traffic = live/predicted traffic. */
+export interface Travel {
+  minutes: number;
+  km: number;
+  traffic: TrafficLevel;
+  method: "google_traffic" | "osrm" | "estimate";
+  minutes_without_traffic?: number | null;
+}
+
+/** Opening status at the planned start time. */
+export interface Opening {
+  hours_today: string | null;
+  status: "open" | "opens_later" | "closed" | "unknown";
+  label: string;
+}
+
+/** What visitors like / dislike, from real reviews (AI-summarised or keyword-based). */
+export interface ReviewSummary {
+  likes: string[];
+  dislikes: string[];
+  text: string;
+  based_on: number;
+  method: "ai" | "keywords";
 }
 
 export interface CandidateMarker {

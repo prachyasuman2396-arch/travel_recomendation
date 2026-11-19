@@ -19,6 +19,7 @@ from app.services.agents.fact_extraction import AgentReport
 from app.services.entity_resolution.geo import haversine_m
 from app.services.entity_resolution.text_similarity import distinctive_conflict, name_similarity
 from app.services.llm.base import LLMInvalidResponseError, LLMRequest, LLMResponse
+from app.services.llm.json_repair import JSONExtractionError, extract_json
 from app.services.llm.llm_service import AllProvidersFailedError, LLMService
 from app.services.preprocessing.categories import category_compatibility
 from app.services.preprocessing.cleaning import normalize_name
@@ -108,8 +109,8 @@ class LLMJudge:
 
         def parse(response: LLMResponse) -> Judgement:
             try:
-                return Judgement.model_validate(json.loads(response.text))
-            except (json.JSONDecodeError, ValidationError) as exc:
+                return Judgement.model_validate(extract_json(response.text)[0])
+            except (JSONExtractionError, ValidationError) as exc:
                 raise LLMInvalidResponseError(f"judge schema mismatch: {exc}", provider=response.provider) from exc
 
         request = LLMRequest(system=SYSTEM, user=json.dumps(payload, ensure_ascii=False), json_schema=JUDGE_SCHEMA,

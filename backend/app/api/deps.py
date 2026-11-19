@@ -22,7 +22,8 @@ from app.services.intent.parser import LLMIntentParser, RuleIntentParser
 from app.services.llm.llm_factory import build_llm_service
 from app.services.llm.llm_service import LLMService
 from app.services.recommendation.engine import EngineConfig, RecommendationEngine
-from app.services.routing.router import EstimateRouter, OSRMRouter, RoutingService
+from app.services.recommendation.review_summary import ReviewSummarizer
+from app.services.routing.router import EstimateRouter, GoogleRoutesRouter, OSRMRouter, RoutingService
 from app.services.semantic.search import GeminiEmbedder
 from app.services.semantic.service import SemanticService
 from app.services.sentiment.lexicon import LexiconSentimentAnalyzer
@@ -42,6 +43,7 @@ class AppServices:
     semantic: SemanticService | None = None
     routing: RoutingService | None = None
     embedder: GeminiEmbedder | None = None
+    reviews: ReviewSummarizer | None = None
 
 
 def build_services(settings: Settings) -> AppServices:
@@ -62,14 +64,19 @@ def build_services(settings: Settings) -> AppServices:
     if settings.semantic_backend == "gemini" and settings.gemini_api_key:
         embedder = GeminiEmbedder(settings.gemini_api_key.get_secret_value(), http, settings.embedding_model,
                                   settings.embedding_dimensions)
+    # Live traffic uses the same Google Maps Platform key as Places (enable the Routes API on it).
+    traffic = (GoogleRoutesRouter(settings.places_api_key.get_secret_value(), http)
+               if settings.places_api_key and settings.traffic_routing_enabled else None)
     routing = RoutingService(OSRMRouter(settings.osrm_url, http) if settings.osrm_url else None,
-                             EstimateRouter(settings.assumed_avg_speed_kmh, settings.road_detour_factor))
+                             EstimateRouter(settings.assumed_avg_speed_kmh, settings.road_detour_factor),
+                             traffic=traffic)
     return AppServices(
         http=http,
         weather=WeatherService(provider, settings.weather_cache_ttl_seconds, settings.air_quality_enabled),
         llm=llm,
         sentiment=SentimentService(analyzer, settings.sentiment_min_reviews),
         intent=intent, semantic=SemanticService(embedder), routing=routing, embedder=embedder,
+        reviews=ReviewSummarizer(llm if settings.review_summary_llm else None),
     )
 
 
@@ -94,7 +101,8 @@ def engine_config(settings: Settings) -> EngineConfig:
 def get_engine(db: Session = Depends(get_db), services: AppServices = Depends(get_services),
                settings: Settings = Depends(get_settings)) -> RecommendationEngine:
     return RecommendationEngine(PoiRepository(db), services.weather, services.llm, engine_config(settings),
-                                intent=services.intent, semantic=services.semantic, routing=services.routing)
+                                intent=services.intent, semantic=services.semantic, routing=services.routing,
+                                reviews=services.reviews)
 
 
 def require_admin(authorization: str | None = Header(default=None),

@@ -32,6 +32,18 @@ BASE_URL = "https://generativelanguage.googleapis.com/v1beta"
 NAME = "gemini"
 
 
+def _retry_delay(err: dict) -> float | None:
+    """Gemini puts the wait in error.details[].retryDelay, e.g. {"@type": ".../RetryInfo", "retryDelay": "17s"}."""
+    for detail in err.get("details") or []:
+        delay = str((detail or {}).get("retryDelay") or "")
+        if delay.endswith("s"):
+            try:
+                return max(0.0, float(delay[:-1]))
+            except ValueError:
+                return None
+    return None
+
+
 def _error_for(response: httpx.Response) -> LLMError:
     status = response.status_code
     try:
@@ -45,7 +57,9 @@ def _error_for(response: httpx.Response) -> LLMError:
     if status == 404:
         return LLMModelUnavailableError(f"Gemini model not found: {message}", provider=NAME)
     if status == 429:
-        return LLMRateLimitError("Gemini rate limit / quota exceeded", provider=NAME)
+        exc = LLMRateLimitError("Gemini rate limit / quota exceeded", provider=NAME)
+        exc.retry_after = _retry_delay(err)
+        return exc
     if status == 400 and ("token" in text and ("exceed" in text or "too long" in text or "limit" in text)):
         return LLMContextOverflowError("Gemini prompt exceeds the model's context window", provider=NAME)
     if status == 504:
@@ -108,7 +122,10 @@ class GeminiProvider:
         # Thinking models may return thought parts; only keep the answer text.
         text = "".join(p.get("text", "") for p in parts if not p.get("thought"))
         if finish == "MAX_TOKENS":
-            raise LLMTruncatedError("Gemini output truncated (raise LLM_MAX_OUTPUT_TOKENS)", provider=NAME)
+            partial = LLMResponse(text=text, provider=NAME, model=self.model, finish_reason=finish,
+                                  usage=payload.get("usageMetadata") or {}) if text.strip() else None
+            raise LLMTruncatedError("Gemini output truncated (raise LLM_MAX_OUTPUT_TOKENS)", provider=NAME,
+                                    partial=partial)
         if finish in ("SAFETY", "RECITATION", "PROHIBITED_CONTENT", "BLOCKLIST", "SPII"):
             raise LLMBlockedError(f"Gemini stopped generation: {finish}", provider=NAME)
         if not text.strip():

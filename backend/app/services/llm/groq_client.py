@@ -9,6 +9,7 @@ Verified against console.groq.com/docs/structured-outputs (Nov 2026):
 
 from __future__ import annotations
 
+import json
 from typing import Literal
 
 import httpx
@@ -107,6 +108,10 @@ class GroqProvider:
                     '  "vibe": []\n'
                     '}'
                 )
+            elif request.schema_name != "recommendation_response":
+                # Any other task (fact extraction, review summaries, match judging) states its own schema.
+                schema_hint = ("\n\nCRITICAL: Respond ONLY with a valid JSON object, no markdown fences, matching "
+                               "this JSON Schema:\n" + json.dumps(request.json_schema))
             else:
                 schema_hint = (
                     '\n\nCRITICAL: Respond ONLY with a valid JSON object. No markdown fences, no explanation text outside the JSON.\n'
@@ -147,7 +152,10 @@ class GroqProvider:
         finish = choices[0].get("finish_reason")
         text = (choices[0].get("message") or {}).get("content") or ""
         if finish == "length":
-            raise LLMTruncatedError("Groq output truncated (raise LLM_MAX_OUTPUT_TOKENS)", provider=NAME)
+            partial = LLMResponse(text=text, provider=NAME, model=self.model, finish_reason=finish,
+                                  usage=payload.get("usage") or {}) if text.strip() else None
+            raise LLMTruncatedError("Groq output truncated (raise LLM_MAX_OUTPUT_TOKENS)", provider=NAME,
+                                    partial=partial)
         if not text.strip():
             raise LLMInvalidResponseError("Groq returned empty content", provider=NAME)
         return LLMResponse(text=text, provider=NAME, model=self.model, finish_reason=finish,

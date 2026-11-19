@@ -107,12 +107,56 @@ def test_verified_no_entry_without_platform_excludes() -> None:
     assert out.excluded and out.reason == "entry_restricted"
 
 
-def test_verified_no_entry_with_platform_keeps_place_with_critical_notice() -> None:
+def test_verified_no_entry_with_platform_still_excludes() -> None:
+    # Lingaraj: a viewing platform outside the wall is not entry, so the temple is never a stop.
     out = apply_rules(NON_HINDU, "religious", ["religious"],
                       [_fact("non_hindu_entry", {"allowed": False, "viewing_platform": True})], [])
-    assert not out.excluded
-    assert any(n.kind == "entry" and n.severity == "critical" and n.verified for n in out.notices)
-    assert out.penalty > 0
+    assert out.excluded and out.reason == "entry_restricted"
+
+
+@pytest.mark.parametrize(("name", "category", "lat", "lon", "description"), [
+    ("Lingaraj Temple", "religious", 20.2382, 85.8338, None),
+    ("Guruvayur Sri Krishna Temple", "religious", 10.5946, 76.0394, None),
+    ("Sree Padmanabhaswamy Temple", "religious", 8.4828, 76.9436, None),
+    ("Parvati Temple", "religious", 20.2384, 85.8340, None),            # inside the Lingaraj compound
+    ("Gundicha Temple", "religious", 19.8133, 85.8306, None),
+    ("Jagannath Temple", "cultural", 19.8048, 85.8180,                   # "school" in text must not unblock it
+     "Built in the Kalinga school of architecture near the railway station and beach."),
+    ("Some Shiva Temple", "religious", 22.0, 84.0, "Entry is restricted to Hindus only."),
+])
+def test_orthodox_shrines_are_excluded_for_non_hindus(name, category, lat, lon, description) -> None:
+    out = apply_rules(NON_HINDU, category, [category], [], [], poi_name=name, description=description,
+                      lat=lat, lon=lon)
+    assert out.excluded and out.reason == "entry_restricted", name
+
+
+@pytest.mark.parametrize(("name", "category", "lat", "lon", "description"), [
+    ("Raghurajpur", "cultural", 19.8900, 85.8800, "Heritage crafts village famous for pattachitra and temples."),
+    ("Puri Beach", "religious", 19.7980, 85.8280, None),
+    ("Puri railway station", "cultural", 19.8131, 85.8410, None),
+    ("District Headquarters Hospital Puri", "cultural", 19.8100, 85.8250, None),
+    ("Lingaraj Temple viewing platform", "cultural", 20.2386, 85.8333, None),
+    ("St. Mary's Church", "religious", 19.8110, 85.8300, None),
+    ("Jagannath Temple, Hauz Khas", "religious", 28.5494, 77.2001, None),  # open temple outside Puri
+    ("Mathematics Museum", "cultural", 20.3, 85.8, "The aftermath of the war"),
+])
+def test_secular_and_open_places_are_not_over_filtered(name, category, lat, lon, description) -> None:
+    out = apply_rules(NON_HINDU, category, [category], [], [], poi_name=name, description=description,
+                      lat=lat, lon=lon)
+    assert not out.excluded, name
+
+
+def test_foreign_price_missing_is_flagged_not_assumed_free() -> None:
+    visitor = VisitorProfile(foreign_national=True, max_entry_fee_inr=100)
+    out = apply_rules(visitor, "historical", ["historical"], [_fact("entry_fee", {"indian": 40})], [])
+    assert not out.excluded and out.penalty > 0
+    assert any(n.kind == "fee" and "not confirmed" in n.text for n in out.notices)
+
+
+def test_verified_foreigner_restriction_excludes_foreign_nationals() -> None:
+    out = apply_rules(VisitorProfile(foreign_national=True), "religious", ["religious"],
+                      [_fact("foreigner_entry", {"allowed": False})], [])
+    assert out.excluded and out.reason == "entry_restricted"
 
 
 def test_unverified_restriction_excludes_non_hindu() -> None:

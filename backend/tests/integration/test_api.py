@@ -108,6 +108,33 @@ def test_health_reports_degraded_db(make_client):
     assert r.status_code == 200 and r.json()["status"] == "degraded"
 
 
+def test_liveness_never_touches_the_database(make_client):
+    with make_client() as client:
+        r = client.get("/healthz")
+    assert r.status_code == 200 and r.json() == {"status": "ok"}
+
+
+def test_readiness_is_503_while_database_is_down(make_client):
+    with make_client() as client:
+        r = client.get("/readyz")
+    assert r.status_code == 503 and r.json()["status"] == "not_ready"
+
+
+def test_recommendations_are_rate_limited_per_client(make_client):
+    with make_client() as client:
+        client.app.dependency_overrides.clear()
+        settings = Settings(log_json=False, llm_provider="mock", rate_limit_per_minute=2)
+        from app.core import config as cfg
+        client.app.dependency_overrides[cfg.get_settings] = lambda: settings
+        client.app.dependency_overrides[get_engine] = lambda: RecommendationEngine(
+            Source(), WeatherService(None), LLMService([MockLLMProvider()]), EngineConfig())
+        client.app.dependency_overrides[get_db] = lambda: NoDb()
+        codes = [client.post("/api/v1/recommendations", json=BODY).status_code for _ in range(3)]
+        limited = client.post("/api/v1/recommendations", json=BODY)
+    assert codes == [200, 200, 429]
+    assert limited.json()["error"]["code"] == "rate_limited" and int(limited.headers["Retry-After"]) > 0
+
+
 def test_weather_endpoint_mock(make_client):
     with make_client() as client:
         r = client.get("/api/v1/weather", params={"latitude": 20.29, "longitude": 85.82})

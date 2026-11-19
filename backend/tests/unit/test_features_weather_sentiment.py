@@ -10,6 +10,7 @@ from app.services.feature_engineering.features import (
     adjusted_rating,
     build_feature_frame,
     compute_features,
+    exposure,
     hours_for_day,
     interest_match,
     time_fit,
@@ -171,3 +172,74 @@ def test_sentiment_aggregation_requires_minimum_reviews():
                                                           ("3 stars", 0.7, 0.0), ("positive", 0.8, 0.8)])
 def test_transformer_label_mapping(label, conf, expected):
     assert _to_score(label, conf) == pytest.approx(expected)
+
+
+# --------------------------------------------------------------- weather for the planned visit
+def _hourly(start, values):
+    """values: list of (temp, code, precip) per hour from ``start``."""
+    from datetime import timedelta
+    return [WeatherPoint(kind="forecast", valid_at=start + timedelta(hours=i), temperature_c=t, weather_code=c,
+                         precipitation_probability=p) for i, (t, c, p) in enumerate(values)]
+
+
+@pytest.mark.parametrize(("cats", "weather", "expected"), [
+    (["historical", "cultural"], snapshot(precip=90), "acceptable"),   # open-air monument in heavy rain odds
+    (["historical"], snapshot(code=95), "unsuitable"),                 # storm at a fort
+    (["religious", "historical"], snapshot(temp=43), "unsuitable"),    # barefoot courtyards at 43 °C
+    (["religious"], snapshot(temp=38), "acceptable"),
+    (["historical"], snapshot(code=55), "acceptable"),                  # dense drizzle counts as rain
+    (["beaches", "nature"], snapshot(code=55), "acceptable"),
+    (["beaches", "nature"], snapshot(code=65), "unsuitable"),           # heavy rain
+    (["cultural", "historical"], snapshot(code=65, precip=90), "suitable"),  # museum: indoors
+])
+def test_open_air_sites_and_drizzle_count(cats, weather, expected):
+    assert weather_fit(cats, weather, 4) == expected
+
+
+def test_storm_later_in_the_window_counts():
+    snap = snapshot()
+    snap = snap.model_copy(update={"forecast": _hourly(MONDAY, [(27, 2, 10), (27, 2, 10), (26, 95, 60)])})
+    assert weather_fit(["nature"], snap, 3) == "unsuitable"
+    assert weather_fit(["nature"], snap, 2) == "suitable"
+
+
+def test_for_window_uses_the_planned_hours_not_now():
+    from datetime import timedelta
+    tomorrow_9 = MONDAY + timedelta(hours=23)
+    hours = [(24, 61, 80)] * 23 + [(29, 1, 5)] * 4 + [(30, 95, 90)] * 5  # rain tonight, clear 09-13, storm later
+    snap = snapshot(code=61, temp=24, precip=80).model_copy(update={"forecast": _hourly(MONDAY, hours)})
+    window = snap.for_window(tomorrow_9, 4)
+    assert [p.valid_at for p in window.forecast] == [tomorrow_9 + timedelta(hours=i) for i in range(4)]
+    assert window.current.valid_at == tomorrow_9 and window.current.kind == "forecast"
+    assert window.max_precipitation_probability(4) == 5
+    assert weather_fit(["beaches", "nature"], snap, 4) == "unsuitable"     # tonight
+    assert weather_fit(["beaches", "nature"], window, 4) == "suitable"     # tomorrow morning
+
+
+def test_for_window_outside_forecast_keeps_snapshot():
+    from datetime import timedelta
+    snap = snapshot()
+    assert snap.for_window(MONDAY + timedelta(days=30), 4) is snap
+
+
+async def test_weather_service_beyond_forecast_range_is_unavailable(sample_dir):
+    from datetime import timedelta
+    service = WeatherService(MockWeatherProvider(sample_dir / "weather_open_meteo.json"))
+    far = datetime.now(UTC) + timedelta(days=20)
+    assert await service.get(20.29, 85.82, 4, start=far) == (None, "unavailable")
+
+
+def test_bad_weather_reorders_the_list():
+    from app.schemas.preference import PreferenceProfile
+    from tests.unit.factories import bhubaneswar_candidates
+    profile = PreferenceProfile(latitude=20.2961, longitude=85.8245, interests=[], max_distance_km=20,
+                                available_hours=4)
+    cands = bhubaneswar_candidates()
+    clear = {f.poi_id: f for f in compute_features(cands, profile, snapshot(), MONDAY, 25)}
+    storm = {f.poi_id: f for f in compute_features(cands, profile, snapshot(code=95, precip=90), MONDAY, 25)}
+    for c in cands:
+        drop = clear[c.poi_id].pre_score - storm[c.poi_id].pre_score
+        if exposure(c.categories or [c.category]) == "outdoor":
+            assert drop >= 0.3, c.name           # weight + penalty: real reordering, not a 0.09 nudge
+        elif exposure(c.categories or [c.category]) == "indoor":
+            assert drop < 0.1, c.name

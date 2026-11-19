@@ -197,7 +197,7 @@ class MemoryCandidateSource:
                 description=p.get("description"), address=p.get("address"), website=p.get("website"),
                 opening_hours=p.get("opening_hours"), ratings=ratings, photo_count=len(photos),
                 review_count=len(reviews), sentiment=self._sentiment(reviews),
-                review_snippets=[r["text"] for r in reviews if r.get("text")][:2], facts=facts,
+                review_snippets=[r["text"] for r in reviews if r.get("text")][:5], facts=facts,
                 alt_names=list(p.get("alt_names", [])), wiki_summary=doc["summary"] if doc else None,
                 wiki_url=doc["url"] if doc else None, image_url=doc.get("image_url") if doc else None,
                 image_attribution=doc.get("image_attribution") if doc else None,

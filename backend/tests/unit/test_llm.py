@@ -102,11 +102,26 @@ async def test_groq_success_strict_json_schema():
         return httpx.Response(200, json={"choices": [{"finish_reason": "stop", "message": {"content": GOOD}}]})
 
     async with http(handler) as client:
-        out = await GroqProvider("gk", "openai/gpt-oss-120b", client).generate(REQ)
+        # The API passes GROQ_STRUCTURED_MODE (default json_schema); the bare constructor defaults to plain_text.
+        out = await GroqProvider("gk", "openai/gpt-oss-120b", client, structured_mode="json_schema").generate(REQ)
     fmt = captured["body"]["response_format"]
     assert captured["auth"] == "Bearer gk"
     assert fmt["type"] == "json_schema" and fmt["json_schema"]["strict"] is True
     assert out.text == GOOD and out.model == "openai/gpt-oss-120b"
+
+
+async def test_groq_plain_text_default_sends_no_response_format():
+    captured = {}
+
+    def handler(request):
+        captured["body"] = json.loads(request.content)
+        return httpx.Response(200, json={"choices": [{"finish_reason": "stop", "message": {"content": GOOD}}]})
+
+    async with http(handler) as client:
+        out = await GroqProvider("gk", "openai/gpt-oss-20b", client).generate(REQ)
+    assert "response_format" not in captured["body"]
+    assert "Respond ONLY with a valid JSON object" in captured["body"]["messages"][0]["content"]
+    assert out.text == GOOD
 
 
 async def test_groq_json_object_mode_puts_schema_in_prompt():

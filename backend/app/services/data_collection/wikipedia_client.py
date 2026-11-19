@@ -100,20 +100,38 @@ class WikipediaClient:
         )
 
     async def geosearch(self, latitude: float, longitude: float, radius_m: float, limit: int = 30) -> list[dict]:
-        """Find places with Wikipedia articles around coordinates via MediaWiki Geosearch."""
+        """Geotagged articles around a point, with each article's short description and coordinate type.
+
+        One request (``generator=geosearch`` + ``prop=coordinates|description``) so callers can tell a temple
+        ("Hindu temple in Puri") from a constituency or a school without fetching every page.
+        Returns ``[{"pageid", "title", "lat", "lon", "type", "description"}]``, nearest first; [] on failure.
+        """
         base = f"https://{self._lang}.wikipedia.org"
         params = {
-            "action": "query", "list": "geosearch",
-            "gscoord": f"{latitude:.6f}|{longitude:.6f}",
-            "gsradius": str(int(min(radius_m, 10000))),
-            "gslimit": str(limit), "format": "json",
+            "action": "query", "generator": "geosearch",
+            "ggscoord": f"{latitude:.6f}|{longitude:.6f}",
+            "ggsradius": str(int(min(radius_m, 10000))),
+            "ggslimit": str(min(limit, 500)),
+            "prop": "coordinates|description", "coprop": "type", "colimit": "max",
+            "format": "json", "formatversion": "2",
         }
         try:
             data = await self._get(f"{base}/w/api.php", params=params)
-            return data.get("query", {}).get("geosearch", [])
-        except Exception as exc:
-            logger.warning("wikipedia_geosearch_failed", extra={"error": str(exc)})
+        except (ExternalServiceError, ValueError) as exc:
+            logger.warning("wikipedia_geosearch_failed", extra={"error": str(exc), "error_type": type(exc).__name__})
             return []
+        pages = (data.get("query") or {}).get("pages") or []
+        if isinstance(pages, dict):  # formatversion=1 shape
+            pages = list(pages.values())
+        out = []
+        for page in pages:
+            coords = (page.get("coordinates") or [None])[0]
+            if not coords or page.get("missing") or "title" not in page:
+                continue
+            out.append({"pageid": page.get("pageid"), "title": page["title"], "lat": coords["lat"],
+                        "lon": coords["lon"], "type": coords.get("type"), "description": page.get("description")})
+        out.sort(key=lambda p: (p["lat"] - latitude) ** 2 + (p["lon"] - longitude) ** 2)
+        return out
 
 
 class MockWikipediaCollector:

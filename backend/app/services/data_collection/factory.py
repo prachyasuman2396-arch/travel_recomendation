@@ -15,6 +15,7 @@ import httpx
 
 from app.core.config import Settings
 from app.core.errors import ServiceNotConfiguredError
+from app.core.http import build_async_client
 from app.services.data_collection.flickr_client import FlickrClient
 from app.services.data_collection.mock_clients import (
     MockFlickrCollector,
@@ -72,5 +73,10 @@ def default_sources(settings: Settings) -> list[str]:
 
 
 def build_http_client(settings: Settings) -> httpx.AsyncClient:
-    timeout = httpx.Timeout(settings.api_timeout, connect=min(10.0, settings.api_timeout))
-    return httpx.AsyncClient(timeout=timeout, headers={"User-Agent": settings.user_agent})
+    """Process-wide pooled client (created once in the FastAPI lifespan, closed on shutdown)."""
+    return build_async_client(
+        user_agent=settings.user_agent, timeout=settings.api_timeout, connect_timeout=10.0,
+        max_connections=settings.http_max_connections,
+        max_keepalive_connections=settings.http_max_keepalive_connections,
+        keepalive_expiry=settings.http_keepalive_expiry, http2=settings.http2_enabled, follow_redirects=False,
+    )

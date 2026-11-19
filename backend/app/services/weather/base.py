@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime, timedelta
 from typing import Literal, Protocol
 
 from pydantic import BaseModel
@@ -51,6 +51,28 @@ class WeatherSnapshot(BaseModel):
         values = [p.precipitation_probability for p in self.forecast[: max(1, round(hours))]
                   if p.precipitation_probability is not None]
         return max(values) if values else None
+
+    def for_window(self, start: datetime, hours: float) -> WeatherSnapshot:
+        """The forecast for the visit window ``[start, start + hours)`` instead of "from now".
+
+        ``forecast`` becomes the window's hourly points, so every consumer that reads
+        ``forecast[:hours]`` (rain probability, worst code, max temperature) now sees the planned trip.
+        When the trip starts more than an hour from now, ``current`` becomes the window's first hour
+        (still labelled ``kind="forecast"``, so it is never presented as an observation), and the
+        air-quality reading — which is a current measurement — is dropped once the trip is >12 h away.
+        If the fetched forecast doesn't cover the window at all, the snapshot is returned unchanged.
+        """
+        if start.tzinfo is None:
+            start = start.replace(tzinfo=UTC)
+        end = start + timedelta(hours=max(1.0, hours))
+        points = [p for p in self.forecast if start - timedelta(minutes=59) < p.valid_at < end]
+        if not points:
+            return self
+        reference = self.current.valid_at if self.current else self.retrieved_at
+        ahead = start - reference
+        current = points[0] if self.current is None or ahead > timedelta(hours=1) else self.current
+        air = self.air_quality if ahead <= timedelta(hours=12) else None
+        return self.model_copy(update={"forecast": points, "current": current, "air_quality": air})
 
 
 class WeatherProvider(Protocol):

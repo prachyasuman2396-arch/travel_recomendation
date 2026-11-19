@@ -5,8 +5,8 @@ knowledge base built by :func:`app.eval.offline.build_offline_store`, then score
 
 * **hard violations** (must be 0) — checked against the *data*, not the model's words:
   beyond max distance, closed today, avoided category, verified fee above cap, verified
-  wheelchair-inaccessible, verified non-Hindu no-entry without a viewing platform, a verified
-  entry restriction shown without its notice, a cited fact id that does not exist, an itinerary
+  wheelchair-inaccessible, verified non-Hindu no-entry (with or without a viewing
+  platform), a cited fact id that does not exist, an itinerary
   longer than the available time.
 * **expectations** — per-scenario checks (include/exclude places, understood constraints, events, season).
 * **grounding** — share of recommendations that cite ≥1 sourced fact when the place has facts.
@@ -84,10 +84,8 @@ def hard_violations(result: RecommendationResult, profile: PreferenceProfile,
             out.append(f"{tag}: verified not wheelchair accessible")
         entry = facts.get("non_hindu_entry")
         if visitor.non_hindu_visitor and entry and entry.verified and entry.value.get("allowed") is False:
-            if not entry.value.get("viewing_platform"):
-                out.append(f"{tag}: verified no entry for non-Hindus")
-            elif not any(n.kind == "entry" for n in item.notices):
-                out.append(f"{tag}: entry restriction shown without its notice")
+            # A viewing platform outside the wall is not entry: restricted shrines are never recommended.
+            out.append(f"{tag}: verified no entry for non-Hindus")
         known = {f.id for f in item.place_facts}
         if unknown := [f.id for f in item.cited_facts if f.id not in known]:
             out.append(f"{tag}: cites unknown fact ids {unknown}")

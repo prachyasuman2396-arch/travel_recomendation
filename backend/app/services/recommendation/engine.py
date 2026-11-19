@@ -33,12 +33,15 @@ from app.schemas.recommendation import (
     ItineraryOut,
     ItineraryStopOut,
     NoticeOut,
+    OpeningOut,
     RecommendationFacts,
     RecommendationItem,
     RecommendationResult,
+    ReviewSummaryOut,
+    TravelOut,
     WeatherSummary,
 )
-from app.services.feature_engineering.features import CandidateFeatures, compute_features, events_for
+from app.services.feature_engineering.features import CandidateFeatures, apply_travel, compute_features, events_for
 from app.services.india.facts import DEFAULT_VISIT_MINUTES, facts_by_key
 from app.services.india.rules import EventView, VisitorProfile
 from app.services.india.seasons import SEASON_LABELS, in_india, season
@@ -50,6 +53,7 @@ from app.services.llm.prompts.recommendation_prompt import build_messages
 from app.services.llm.response_schemas import RECOMMENDATION_JSON_SCHEMA
 from app.services.recommendation.fallback import templated_response
 from app.services.recommendation.payload import build_user_payload, fact_ids
+from app.services.recommendation.review_summary import PlaceReviews, ReviewSummarizer
 from app.services.recommendation.types import CandidateRow, CandidateSource
 from app.services.recommendation.validator import RecommendationValidator, ValidatedRecommendations
 from app.services.routing.router import EstimateRouter, RoutingService
@@ -80,7 +84,8 @@ class EngineConfig:
 class RecommendationEngine:
     def __init__(self, candidates: CandidateSource, weather: WeatherService, llm: LLMService | None,
                  config: EngineConfig, *, intent: RuleIntentParser | LLMIntentParser | None = None,
-                 semantic: SemanticService | None = None, routing: RoutingService | None = None) -> None:
+                 semantic: SemanticService | None = None, routing: RoutingService | None = None,
+                 reviews: ReviewSummarizer | None = None) -> None:
         self.candidate_source = candidates
         self.weather = weather
         self.llm = llm
@@ -88,6 +93,7 @@ class RecommendationEngine:
         self.intent = intent or RuleIntentParser()
         self.semantic = semantic or SemanticService()
         self.routing = routing or RoutingService(None, EstimateRouter(config.assumed_speed_kmh, config.detour_factor))
+        self.reviews = reviews or ReviewSummarizer()
 
     # =================================================================== public
     async def recommend(self, profile: PreferenceProfile) -> RecommendationResult:
@@ -133,6 +139,17 @@ class RecommendationEngine:
         shortlisted = kept[: self.config.candidate_limit]
         timings["filter_and_score"] = _ms(t)
 
+        # C2 — real drive times at the planned departure (traffic-aware with Google Routes), then re-rank:
+        # a place an hour away through heavy traffic should not beat a good one ten minutes away.
+        t = time.perf_counter()
+        if shortlisted:
+            legs = await self.routing.from_origin((profile.latitude, profile.longitude),
+                                                  [(r.latitude, r.longitude) for r, _ in shortlisted], departure=when)
+            for (_, feat), leg in zip(shortlisted, legs, strict=True):
+                apply_travel(feat, leg.minutes, leg.traffic, leg.method, profile.available_hours)
+            shortlisted.sort(key=lambda p: p[1].pre_score, reverse=True)
+        timings["travel"] = _ms(t)
+
         aq = weather.air_quality if weather else None
         relevant_events = _relevant_events(events, rows, when, profile.available_hours)
         base = dict(
@@ -166,11 +183,11 @@ class RecommendationEngine:
         timings["llm"] = _ms(t)
 
         by_id = {r.poi_id: (r, f) for r, f in shortlisted}
-        items = [self._item(rec, *by_id[rec.poi_id]) for rec in validated.items]
+        items = [self._item(rec, *by_id[rec.poi_id], when=when) for rec in validated.items]
 
         t = time.perf_counter()
-        itinerary = await self._itinerary(profile, when, items, by_id)
-        timings["itinerary"] = _ms(t)
+        itinerary, items = await self._itinerary(profile, when, items, by_id), await self._with_reviews(items, by_id)
+        timings["itinerary_and_reviews"] = _ms(t)
 
         recommended = {i.poi_id for i in items}
         markers = [CandidateMarker(poi_id=r.poi_id, name=r.name, category=r.category, latitude=r.latitude,
@@ -233,7 +250,9 @@ class RecommendationEngine:
                 self.config.prefetch_limit)
 
         async def load_weather() -> None:
-            results["weather"] = await self.weather.get(profile.latitude, profile.longitude, profile.available_hours)
+            # The forecast for the planned visit window (date + start time), not for "now".
+            results["weather"] = await self.weather.get(profile.latitude, profile.longitude, profile.available_hours,
+                                                        start=when)
 
         async def load_events() -> None:
             finder = getattr(self.candidate_source, "events_between", None)
@@ -312,7 +331,7 @@ class RecommendationEngine:
             visit = feat.visit_minutes or DEFAULT_VISIT_MINUTES.get(row.category, 60)
             stops.append(StopInput(row.poi_id, row.name, row.latitude, row.longitude, visit, windows, item.rank))
         matrix = await self.routing.matrix([(profile.latitude, profile.longitude)]
-                                           + [(s.latitude, s.longitude) for s in stops])
+                                           + [(s.latitude, s.longitude) for s in stops], departure=when)
         plan = plan_itinerary(stops, matrix, when, int(profile.available_hours * 60), self.config.itinerary_max_stops)
         return ItineraryOut(
             start=plan.start, end=plan.end, total_travel_minutes=plan.total_travel_minutes,
@@ -322,8 +341,21 @@ class RecommendationEngine:
                                     visit_minutes=s.visit_minutes, hours_known=s.hours_known) for s in plan.stops])
 
     # ================================================================ assembly
+    async def _with_reviews(self, items: list[RecommendationItem], by_id: dict) -> list[RecommendationItem]:
+        """Attach "what people like / dislike" — AI from real reviews when available, else keywords."""
+        places = [PlaceReviews(i.poi_id, i.name, by_id[i.poi_id][0].review_snippets, i.facts.positive_aspects,
+                               i.facts.negative_aspects) for i in items]
+        try:
+            summaries = await self.reviews.summarize(places)
+        except Exception:  # a summary is a nicety; never fail the recommendation over it
+            logger.exception("review_summary_failed")
+            return items
+        return [i.model_copy(update={"review_summary": ReviewSummaryOut(
+            likes=s.likes, dislikes=s.dislikes, text=s.text, based_on=s.based_on, method=s.method)})
+            if (s := summaries.get(i.poi_id)) else i for i in items]
+
     @staticmethod
-    def _item(rec, row: CandidateRow, f: CandidateFeatures) -> RecommendationItem:
+    def _item(rec, row: CandidateRow, f: CandidateFeatures, *, when: datetime | None = None) -> RecommendationItem:
         s = row.sentiment or {}
         aspects = s.get("aspects") or {}
         ids = fact_ids(row)
@@ -350,6 +382,10 @@ class RecommendationEngine:
                                verified=n.verified) for n in (f.notices or [])],
             cited_facts=cited, place_facts=all_facts, season_note=f.season_note, local_names=row.alt_names[:3],
             image_url=row.image_url, image_attribution=row.image_attribution, wiki_url=row.wiki_url,
+            travel=TravelOut(minutes=round(f.travel_minutes), km=round(f.distance_km, 1), traffic=f.traffic,
+                             method=f.travel_method or "estimate") if f.travel_minutes is not None else None,
+            opening=_opening(row, f, when) if when is not None else None,
+            maps_url=f"https://www.google.com/maps/dir/?api=1&destination={row.latitude:.6f},{row.longitude:.6f}",
         )
 
     @staticmethod
@@ -396,3 +432,26 @@ def _hhmm(start: str, end: str) -> tuple[int, int]:
 
 def _ms(t: float) -> float:
     return round((time.perf_counter() - t) * 1000, 1)
+
+
+def _opening(row: CandidateRow, f: CandidateFeatures, when: datetime) -> OpeningOut:
+    """Opening status at the planned start time, e.g. "Open at 09:00 · closes 12:30"."""
+    windows = parse_day_windows(row.opening_hours, when)
+    if windows is None:
+        return OpeningOut(hours_today=f.hours_today, status="unknown", label="Hours not listed — check locally")
+    if not windows:
+        return OpeningOut(hours_today=f.hours_today, status="closed", label="Closed that day")
+    now = when.hour * 60 + when.minute
+    for start, end in sorted(windows):
+        if start <= now < end:
+            closes = "open 24 hours" if (start, end) == (0, 24 * 60) else f"closes {_clock(end)}"
+            return OpeningOut(hours_today=f.hours_today, status="open",
+                              label=f"Open at {when:%H:%M} · {closes}")
+        if now < start:
+            return OpeningOut(hours_today=f.hours_today, status="opens_later", label=f"Opens at {_clock(start)}")
+    return OpeningOut(hours_today=f.hours_today, status="closed", label=f"Closed by {when:%H:%M}")
+
+
+def _clock(minutes: int) -> str:
+    minutes = min(minutes, 24 * 60 - 1) if minutes >= 24 * 60 else minutes
+    return f"{minutes // 60:02d}:{minutes % 60:02d}"

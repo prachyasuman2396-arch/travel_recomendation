@@ -69,6 +69,40 @@ describe("DestinationCard", () => {
     expect(screen.getByText(/tight for your time/i)).toBeInTheDocument();
     expect(screen.getByText("Weather unknown")).toBeInTheDocument();
   });
+
+  it("shows traffic-aware drive time, opening status, what visitors say and directions", () => {
+    renderWithProviders(
+      <DestinationCard
+        item={item({
+          travel: { minutes: 18, km: 2.1, traffic: "heavy", method: "google_traffic", minutes_without_traffic: 10 },
+          opening: { hours_today: "7:00 AM – 6:00 PM", status: "open", label: "Open at 09:00 · closes 18:00" },
+          review_summary: {
+            likes: ["peaceful vibe", "beautiful gardens"], dislikes: ["food is not good"],
+            text: "People like peaceful vibe and beautiful gardens — but some mention food is not good.",
+            based_on: 5, method: "ai",
+          },
+          maps_url: "https://www.google.com/maps/dir/?api=1&destination=20.304500,85.818000",
+        })}
+      />,
+    );
+    expect(screen.getByText(/18 min drive · heavy traffic/)).toBeInTheDocument();
+    expect(screen.getByText(/Open at 09:00 · closes 18:00/)).toBeInTheDocument();
+    const said = screen.getByRole("region", { name: "What visitors say" });
+    expect(said).toHaveTextContent("peaceful vibe, beautiful gardens");
+    expect(said).toHaveTextContent("food is not good");
+    expect(said).toHaveTextContent("From 5 recent reviews · summarised by AI");
+    expect(screen.queryByText("Reviewers were positive about: environment")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Directions/ })).toHaveAttribute(
+      "href", "https://www.google.com/maps/dir/?api=1&destination=20.304500,85.818000");
+    expect(screen.getByText("Today: 7:00 AM – 6:00 PM")).toBeInTheDocument();
+  });
+
+  it("labels estimated drive times", () => {
+    renderWithProviders(
+      <DestinationCard item={item({ travel: { minutes: 7, km: 2, traffic: "unknown", method: "estimate" } })} />,
+    );
+    expect(screen.getByText(/7 min drive \(est\.\)/)).toBeInTheDocument();
+  });
 });
 
 describe("India context", () => {

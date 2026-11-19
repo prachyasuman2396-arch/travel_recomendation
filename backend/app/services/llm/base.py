@@ -79,9 +79,16 @@ class LLMInvalidResponseError(LLMError):
 
 
 class LLMTruncatedError(LLMError):
-    """Output hit the token limit — retrying with the same limit would truncate again."""
+    """Output hit the token limit — retrying with the same limit would truncate again.
+
+    ``partial`` carries what the model did produce, so the caller can salvage complete items from it.
+    """
 
     kind = "truncated"
+
+    def __init__(self, message: str, *, provider: str, partial: LLMResponse | None = None) -> None:
+        super().__init__(message, provider=provider)
+        self.partial = partial
 
 
 class LLMProvider(Protocol):

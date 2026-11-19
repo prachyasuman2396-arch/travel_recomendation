@@ -62,7 +62,7 @@ class ItineraryOut(BaseModel):
     end: datetime
     stops: list[ItineraryStopOut]
     total_travel_minutes: int
-    travel_method: Literal["osrm", "estimate"]
+    travel_method: Literal["google_traffic", "osrm", "estimate"]
     skipped: list[str]
     notes: list[str]
 
@@ -97,6 +97,30 @@ class RecommendationFacts(BaseModel):
     data_origin: str
 
 
+class TravelOut(BaseModel):
+    """Drive from the traveller's start point at the planned departure time."""
+
+    minutes: int
+    km: float
+    traffic: str  # light | moderate | heavy | unknown
+    method: str  # google_traffic (live/predicted traffic) | osrm (road network) | estimate (straight line)
+    minutes_without_traffic: int | None = None
+
+
+class OpeningOut(BaseModel):
+    hours_today: str | None  # e.g. "6:00 AM – 12:30 PM, 3:30 – 9:00 PM"
+    status: str  # open | opens_later | closed | unknown  — at the planned start time
+    label: str  # e.g. "Open at 09:00 · closes 12:30"
+
+
+class ReviewSummaryOut(BaseModel):
+    likes: list[str]
+    dislikes: list[str]
+    text: str  # "People like the calm vibe — but some mention the food."
+    based_on: int  # reviews read
+    method: str  # ai | keywords
+
+
 class RecommendationItem(BaseModel):
     poi_id: str
     rank: int
@@ -125,6 +149,11 @@ class RecommendationItem(BaseModel):
     image_url: str | None = None
     image_attribution: str | None = None
     wiki_url: str | None = None
+    # Traveller-facing context computed by code
+    travel: TravelOut | None = None
+    opening: OpeningOut | None = None
+    review_summary: ReviewSummaryOut | None = None
+    maps_url: str | None = None
 
 
 class CandidateMarker(BaseModel):

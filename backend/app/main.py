@@ -11,6 +11,7 @@ from fastapi import APIRouter, Depends, FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.api.deps import AppServices, build_services, get_services
@@ -18,6 +19,7 @@ from app.api.v1 import admin, events, pois, recommendations, users, weather
 from app.core.config import Settings, get_settings
 from app.core.errors import AppError
 from app.core.logging import configure_logging, request_id_var
+from app.core.rate_limit import FixedWindowLimiter
 from app.database.session import check_database, get_db
 
 logger = logging.getLogger("app")
@@ -42,6 +44,7 @@ def create_app(settings: Settings | None = None, services: AppServices | None = 
 
     app = FastAPI(title="Tourist Place Recommender API", version="0.1.0", lifespan=lifespan,
                   description="Context-aware tourist recommendations: PostGIS retrieval + Gemini/Groq ranking.")
+    app.state.rate_limiter = FixedWindowLimiter(window_seconds=60.0)
     app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origin_list, allow_credentials=False,
                        allow_methods=["GET", "POST", "PUT"], allow_headers=["Authorization", "Content-Type",
                                                                             "X-Request-ID"])
@@ -65,7 +68,10 @@ def create_app(settings: Settings | None = None, services: AppServices | None = 
     async def app_error(request: Request, exc: AppError):
         if exc.status_code >= 500:
             logger.warning("app_error", extra={"code": exc.code, "error": exc.message})
-        return _error(exc.status_code, exc.code, exc.message, exc.details)
+        response = _error(exc.status_code, exc.code, exc.message, exc.details)
+        if (retry := exc.details.get("retry_after_seconds")) is not None:
+            response.headers["Retry-After"] = str(retry)
+        return response
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(request: Request, exc: RequestValidationError):
@@ -77,15 +83,38 @@ def create_app(settings: Settings | None = None, services: AppServices | None = 
         logger.exception("unhandled_error")
         return _error(500, "internal_error", "An unexpected error occurred")
 
+    def _database_status(db: Session) -> dict:
+        try:
+            return check_database(db)
+        except SQLAlchemyError as exc:
+            return {"connected": False, "error": type(exc).__name__}
+        except Exception as exc:  # deliberate boundary: a probe must answer, never 500
+            logger.warning("health_db_check_failed", extra={"error_type": type(exc).__name__}, exc_info=True)
+            return {"connected": False, "error": type(exc).__name__}
+
     @app.get("/health", tags=["health"])
     def health(db: Session = Depends(get_db), svc: AppServices = Depends(get_services)):
-        try:
-            database = check_database(db)
-        except Exception as exc:  # report, don't crash
-            database = {"connected": False, "error": type(exc).__name__}
+        """Human-readable status page (always 200; use /readyz for orchestration)."""
+        database = _database_status(db)
         return {"status": "ok" if database.get("connected") else "degraded", "database": database,
                 "llm_chain": svc.llm.provider_names if svc.llm else [],
                 "live_integrations": settings.provider_status()}
+
+    @app.get("/healthz", tags=["health"])
+    def healthz():
+        """Liveness: the process is up and serving. No dependencies, so a DB outage never restarts the pod."""
+        return {"status": "ok"}
+
+    @app.get("/readyz", tags=["health"])
+    def readyz(db: Session = Depends(get_db), svc: AppServices = Depends(get_services)):
+        """Readiness: 503 until the database answers, so the load balancer only routes to working instances.
+        LLM providers are NOT required: the deterministic fallback still serves results without them."""
+        database = _database_status(db)
+        ready = bool(database.get("connected"))
+        body = {"status": "ready" if ready else "not_ready", "database": database,
+                "llm_configured": svc.llm is not None,
+                "deterministic_fallback": settings.recommendation_deterministic_fallback}
+        return JSONResponse(status_code=200 if ready else 503, content=body)
 
     api = APIRouter(prefix="/api/v1")
     for module in (pois, recommendations, events, users, weather, admin):

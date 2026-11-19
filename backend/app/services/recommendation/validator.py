@@ -15,7 +15,6 @@ retries / falls back. Heuristic limits are documented in docs/architecture.md.
 
 from __future__ import annotations
 
-import json
 import re
 from dataclasses import dataclass, field
 
@@ -23,12 +22,12 @@ from pydantic import ValidationError
 
 from app.services.feature_engineering.features import CandidateFeatures
 from app.services.llm.base import LLMInvalidResponseError, LLMResponse
+from app.services.llm.json_repair import JSONExtractionError, extract_json
 from app.services.llm.response_schemas import LLMRecommendation, LLMRecommendationResponse
 from app.services.recommendation.payload import fact_ids
 from app.services.recommendation.types import CandidateRow
 from app.services.weather.base import WeatherSnapshot
 
-_FENCE = re.compile(r"^```(?:json)?\s*|\s*```$", re.MULTILINE)
 _SENTENCE = re.compile(r"(?<=[.!?])\s+")
 _KM = re.compile(r"(\d+(?:\.\d+)?)\s*(?:km|kilomet(?:er|re)s?)\b", re.IGNORECASE)
 _RATING = re.compile(r"(?:rated|rating(?: of)?|score of)\s*(\d(?:\.\d+)?)|(\d\.\d)\s*(?:/\s*5|stars?|★)",
@@ -93,8 +92,7 @@ class RecommendationValidator:
 
     # ------------------------------------------------------------------ public
     def __call__(self, response: LLMResponse) -> ValidatedRecommendations:
-        parsed = self._parse(response)
-        warnings: list[str] = []
+        parsed, warnings = self._parse(response)
         seen: set[str] = set()
         valid: list[LLMRecommendation] = []
         for rec in sorted(parsed.recommendations, key=lambda r: r.rank):
@@ -126,14 +124,33 @@ class RecommendationValidator:
 
     # ----------------------------------------------------------------- helpers
     @staticmethod
-    def _parse(response: LLMResponse) -> LLMRecommendationResponse:
-        text = _FENCE.sub("", response.text.strip())
+    def _parse(response: LLMResponse) -> tuple[LLMRecommendationResponse, list[str]]:
+        """Recover JSON (fences, prose, truncation), then validate each item on its own.
+
+        One malformed or half-written item is dropped with a warning instead of failing the whole response.
+        """
+        warnings: list[str] = []
         try:
-            data = json.loads(text)
-        except json.JSONDecodeError as exc:
-            raise LLMInvalidResponseError(f"invalid JSON: {exc.msg}", provider=response.provider) from exc
+            data, repaired = extract_json(response.text)
+        except JSONExtractionError as exc:
+            raise LLMInvalidResponseError(f"invalid JSON: {exc}", provider=response.provider) from exc
+        if repaired:
+            warnings.append("LLM output was cut off; kept only the complete recommendations")
+        if isinstance(data, list):  # some models return the bare array
+            data = {"recommendations": data}
+        if not isinstance(data, dict) or not isinstance(data.get("recommendations", []), list):
+            raise LLMInvalidResponseError("schema mismatch: 'recommendations' must be a list",
+                                          provider=response.provider)
+        items: list[LLMRecommendation] = []
+        for index, raw in enumerate(data.get("recommendations") or []):
+            try:
+                items.append(LLMRecommendation.model_validate(raw))
+            except ValidationError as exc:
+                warnings.append(f"dropped malformed recommendation #{index + 1}: {exc.errors()[0]['msg']}")
+        summary = data.get("summary")
         try:
-            return LLMRecommendationResponse.model_validate(data)
+            return LLMRecommendationResponse(recommendations=items[:30],
+                                             summary=summary[:1200] if isinstance(summary, str) else ""), warnings
         except ValidationError as exc:
             raise LLMInvalidResponseError(f"schema mismatch: {exc.errors()[0]['msg']}",
                                           provider=response.provider) from exc

@@ -81,7 +81,7 @@ class OpenMeteoProvider:
 
     async def fetch(self, latitude: float, longitude: float, hours: int) -> WeatherSnapshot:
         params: dict = {"latitude": round(latitude, 4), "longitude": round(longitude, 4), "current": CURRENT,
-                        "hourly": HOURLY, "forecast_hours": max(1, min(hours, 48)), "timezone": "auto"}
+                        "hourly": HOURLY, "forecast_hours": max(1, min(hours, 384)), "timezone": "auto"}
         url = FREE_URL
         if self._key:
             url, params["apikey"] = COMMERCIAL_URL, self._key

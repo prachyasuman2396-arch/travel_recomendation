@@ -13,7 +13,6 @@ Two interchangeable extractors:
 
 from __future__ import annotations
 
-import json
 import logging
 import re
 from dataclasses import dataclass, field
@@ -23,6 +22,7 @@ from pydantic import BaseModel, Field, ValidationError
 
 from app.services.india.facts import validate_fact_value
 from app.services.llm.base import LLMInvalidResponseError, LLMRequest, LLMResponse
+from app.services.llm.json_repair import JSONExtractionError, extract_json
 from app.services.llm.llm_service import AllProvidersFailedError, LLMService
 
 logger = logging.getLogger(__name__)
@@ -231,8 +231,8 @@ class LLMFactExtractor:
 
         def parse(response: LLMResponse) -> _LLMFacts:
             try:
-                return _LLMFacts.model_validate(json.loads(response.text))
-            except (json.JSONDecodeError, ValidationError) as exc:
+                return _LLMFacts.model_validate(extract_json(response.text)[0])
+            except (JSONExtractionError, ValidationError) as exc:
                 raise LLMInvalidResponseError(f"fact schema mismatch: {exc}", provider=response.provider) from exc
 
         request = LLMRequest(system=SYSTEM, user=user, json_schema=FACTS_JSON_SCHEMA, schema_name="place_facts",

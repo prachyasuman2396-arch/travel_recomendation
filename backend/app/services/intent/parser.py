@@ -11,7 +11,6 @@ restrictions or preferences; it never removes something the user set explicitly 
 
 from __future__ import annotations
 
-import json
 import logging
 import re
 from dataclasses import dataclass, field
@@ -19,6 +18,7 @@ from dataclasses import dataclass, field
 from pydantic import BaseModel, Field, ValidationError
 
 from app.services.llm.base import LLMInvalidResponseError, LLMRequest, LLMResponse
+from app.services.llm.json_repair import JSONExtractionError, extract_json
 from app.services.llm.llm_service import AllProvidersFailedError, LLMService
 
 logger = logging.getLogger(__name__)
@@ -174,8 +174,8 @@ class LLMIntentParser:
 
         def parse(response: LLMResponse) -> ParsedIntent:
             try:
-                return ParsedIntent.model_validate(json.loads(response.text))
-            except (json.JSONDecodeError, ValidationError) as exc:
+                return ParsedIntent.model_validate(extract_json(response.text)[0])
+            except (JSONExtractionError, ValidationError) as exc:
                 raise LLMInvalidResponseError(f"intent schema mismatch: {exc}", provider=response.provider) from exc
 
         try:

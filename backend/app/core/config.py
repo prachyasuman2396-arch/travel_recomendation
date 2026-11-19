@@ -35,6 +35,14 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:5173,http://localhost:8080"
     admin_api_token: SecretStr | None = None
     api_timeout: float = Field(30.0, gt=0, le=300)
+    # Outbound connection pool shared by every provider client (Wikipedia, Overpass, Open-Meteo, LLMs).
+    http_max_connections: int = Field(100, ge=1, le=1000)
+    http_max_keepalive_connections: int = Field(20, ge=0, le=1000)
+    http_keepalive_expiry: float = Field(30.0, ge=0)
+    http2_enabled: bool = True  # needs the h2 package (httpx[http2]); silently falls back to HTTP/1.1
+    # Per-client-IP request budget for the expensive POST /recommendations* endpoints (0 disables).
+    rate_limit_per_minute: int = Field(20, ge=0, le=10000)
+    trust_forwarded_for: bool = False  # true only behind a proxy you control (Render, nginx)
 
     # Data providers
     places_api_key: SecretStr | None = None
@@ -74,7 +82,9 @@ class Settings(BaseSettings):
     # Recommendation
     recommendation_candidate_limit: int = Field(40, ge=1, le=200)
     recommendation_max_results: int = Field(8, ge=1, le=30)
-    recommendation_deterministic_fallback: bool = False
+    # Seamless degradation: when every LLM fails (429s, timeouts, truncation) rank with the labelled
+    # deterministic scorer instead of returning 503. Set false to fail loudly instead.
+    recommendation_deterministic_fallback: bool = True
     assumed_avg_speed_kmh: float = Field(22.0, gt=0, le=120)  # Indian city traffic
     road_detour_factor: float = Field(1.35, ge=1.0, le=3.0)  # straight line -> road distance estimate
     # OSRM routing (self-hosted recommended: see docs/routing.md). Empty -> labelled estimate.
@@ -86,6 +96,10 @@ class Settings(BaseSettings):
     embedding_model: str = "gemini-embedding-001"
     embedding_dimensions: int = Field(768, ge=128, le=3072)
     itinerary_max_stops: int = Field(5, ge=1, le=7)
+    # Live traffic (Google Routes API, same key as PLACES_API_KEY) for drive times and ranking
+    traffic_routing_enabled: bool = True
+    # Summarise Google reviews into likes/dislikes with the LLM chain (keywords are used otherwise)
+    review_summary_llm: bool = True
 
     # Weather
     weather_provider: Literal["open_meteo", "mock", "none"] = "open_meteo"

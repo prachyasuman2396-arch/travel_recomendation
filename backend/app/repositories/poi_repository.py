@@ -161,7 +161,7 @@ class PoiRepository:
         return self.session.scalars(select(PoiDocument).where(PoiDocument.poi_id == poi_id)
                                     .order_by(PoiDocument.fetched_at.desc()).limit(1)).first()
 
-    def _review_snippets(self, poi_ids: list[str], per_poi: int = 2) -> dict[str, list[str]]:
+    def _review_snippets(self, poi_ids: list[str], per_poi: int = 5) -> dict[str, list[str]]:
         """Most recent review texts, ≤ ``per_poi`` per POI, in one windowed query."""
         if not poi_ids:
             return {}

@@ -125,7 +125,7 @@ if the free text strongly suggests it.
   HTTP 503 `recommendation_unavailable`. Context overflow → the engine halves the candidate list (up to twice).
 * `MockLLMProvider` (`LLM_PROVIDER=mock`) produces deterministic templated output from the same input so the
   whole app works offline. Responses say `generation_method: "mock_llm"` and the UI labels it.
-* `RECOMMENDATION_DETERMINISTIC_FALLBACK=true` (off by default) returns a labelled score-based ranking instead of
+* `RECOMMENDATION_DETERMINISTIC_FALLBACK=true` (on by default) returns a labelled score-based ranking instead of
   a 503 when all providers fail.
 
 ## Validation of LLM output (`services/recommendation/validator.py`)

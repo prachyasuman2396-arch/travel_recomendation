@@ -31,6 +31,13 @@ from app.services.weather.base import WeatherSnapshot
 
 OUTDOOR = {"nature", "adventure", "wildlife", "beaches", "waterfalls", "parks_gardens"}
 INDOOR = {"cultural", "shopping", "entertainment", "food"}
+OPEN_AIR = {"historical", "religious"}  # monuments, forts, ruins, temple courtyards
+RAIN_CODES = {51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82}  # WMO drizzle, rain, showers
+HEAVY_RAIN_CODES = {65, 67, 82}
+# Subtracted from the pre-score on top of the weather weight, so bad weather actually reorders the list:
+# in a storm or heatwave, indoor places (museums, covered markets) rise above beaches and open forts.
+WEATHER_PENALTY = {"unsuitable": 0.25, "acceptable": 0.03}
+TRAFFIC_PENALTY = {"heavy": 0.06, "moderate": 0.02}
 RATING_PRIOR_MEAN = 3.8
 RATING_PRIOR_WEIGHT = 50  # pseudo-ratings: 5.0 from 3 reviews should not beat 4.5 from 10k
 WEIGHTS = {"interest": 0.35, "rating": 0.20, "distance": 0.15, "sentiment": 0.10, "popularity": 0.10,
@@ -62,6 +69,28 @@ class CandidateFeatures:
     season_note: str | None = None
     semantic: float | None = None
     visit_minutes: int | None = None
+    # Drive from the traveller (filled after shortlisting; traffic-aware with Google Routes)
+    travel_minutes: float | None = None
+    traffic: str = "unknown"  # light | moderate | heavy | unknown
+    travel_method: str | None = None  # google_traffic | osrm | estimate
+
+
+def apply_travel(f: CandidateFeatures, minutes: float, traffic: str, method: str, available_hours: float) -> None:
+    """Use a real (road / traffic-aware) drive time for feasibility and ranking.
+
+    A place whose round trip eats most of the day, or that sits behind heavy traffic, drops down the list.
+    Straight-line estimates are only recorded for display: they keep the old coarse ``time_fit`` and score.
+    """
+    f.travel_minutes, f.traffic, f.travel_method = minutes, traffic, method
+    if method == "estimate":
+        return
+    round_trip_h = 2 * minutes / 60
+    visit_h = min(1.0, (f.visit_minutes or 60) / 60)
+    f.time_fit = ("fits" if round_trip_h + visit_h <= available_hours
+                  else "tight" if round_trip_h < available_hours else "unlikely")
+    share = round_trip_h / max(available_hours, 0.5)
+    penalty = min(0.3, 0.4 * max(0.0, share - 0.2)) + TRAFFIC_PENALTY.get(traffic, 0.0)
+    f.pre_score = round(f.pre_score - penalty, 4)
 
 
 def combined_rating(c: CandidateRow) -> tuple[float | None, int]:
@@ -99,31 +128,59 @@ def interest_match(categories: list[str], interests: list[str], photo_score: flo
     return round(0.8 * best + 0.2 * breadth, 3), matched
 
 
+def exposure(categories: list[str]) -> str:
+    """How exposed a visitor is to the weather: ``indoor`` | ``outdoor`` | ``open_air``.
+
+    ``open_air`` = most Indian monuments, forts, ruins and temple complexes: you walk open courtyards
+    (often barefoot on hot stone) with some shelter. Previously these counted as indoor, so the Konark
+    Sun Temple or a fort was "suitable" in a downpour or at 45 °C. A museum is ``cultural`` first -> indoor.
+    """
+    if set(categories[:1]) & INDOOR:
+        return "indoor"
+    if set(categories) & OUTDOOR:
+        return "outdoor"
+    if set(categories[:1]) & OPEN_AIR:
+        return "open_air"
+    return "indoor"
+
+
 def weather_fit(categories: list[str], weather: WeatherSnapshot | None, hours: float) -> str:
     if weather is None or weather.current is None:
         return "unknown"
     fit = _weather_fit(categories, weather, hours)
     aqi = weather.air_quality.us_aqi if weather.air_quality else None
-    outdoor = bool(set(categories) & OUTDOOR) and not (set(categories[:1]) & INDOOR)
-    if outdoor and aqi is not None:  # long outdoor exposure in poor air (common in Indian winters)
+    kind = exposure(categories)
+    if kind != "indoor" and aqi is not None:  # long exposure in poor air (common in Indian winters)
         if aqi > 200:
-            return "unsuitable"
+            return "unsuitable" if kind == "outdoor" else ("acceptable" if fit == "suitable" else fit)
         if aqi > 150 and fit == "suitable":
             return "acceptable"
     return fit
 
 
 def _weather_fit(categories: list[str], weather: WeatherSnapshot, hours: float) -> str:
+    # Every hour of the visit window counts, not just the first: a storm at hour 3 still spoils the trip.
+    points = ([weather.current] if weather.current else []) + weather.forecast[: max(1, round(hours))]
     precip = weather.max_precipitation_probability(hours) or 0.0
-    code = weather.current.weather_code or 0
-    temp = weather.current.temperature_c
-    storm = code >= 95
-    outdoor = bool(set(categories) & OUTDOOR) and not (set(categories[:1]) & INDOOR)
-    if not outdoor:
+    codes = {p.weather_code for p in points if p.weather_code is not None}
+    temps = [p.temperature_c for p in points if p.temperature_c is not None]
+    temp = max(temps) if temps else None
+    storm = any(c >= 95 for c in codes)
+    heavy = bool(codes & HEAVY_RAIN_CODES)
+    rain = bool(codes & RAIN_CODES)  # includes drizzle (51-57)
+    kind = exposure(categories)
+    if kind == "indoor":
         return "acceptable" if storm else "suitable"
-    if storm or precip >= 70 or (temp is not None and temp >= 40):
+    if kind == "outdoor":
+        if storm or heavy or precip >= 70 or (temp is not None and temp >= 40):
+            return "unsuitable"
+        if rain or precip >= 40 or (temp is not None and temp >= 35):
+            return "acceptable"
+        return "suitable"
+    # open_air: some shelter, so a notch more tolerant than a beach or a trek
+    if storm or (heavy and precip >= 70) or (temp is not None and temp >= 42):
         return "unsuitable"
-    if precip >= 40 or (temp is not None and temp >= 35) or code in (61, 63, 65, 80, 81, 82):
+    if rain or precip >= 50 or (temp is not None and temp >= 37):
         return "acceptable"
     return "suitable"
 
@@ -225,7 +282,7 @@ def compute_features(candidates: list[CandidateRow], profile: PreferenceProfile,
         score = sum(WEIGHTS[k] * v for k, v in parts.items())
         if sem is not None:
             score = 0.85 * score + 0.15 * sem  # semantic match to the free-text request
-        score += 0.5 * season_adj - rule.penalty
+        score += 0.5 * season_adj - rule.penalty - WEATHER_PENALTY.get(wfit, 0.0)
         out.append(CandidateFeatures(
             poi_id=c.poi_id, distance_km=round(distance_km, 2), rating=rating, rating_count=count,
             adjusted_rating=None if adj is None else round(adj, 3), interest_match=match,

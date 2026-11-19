@@ -50,6 +50,8 @@ def candidate_payload(c: CandidateRow, f: CandidateFeatures) -> dict:
         "matched_interests": f.matched_interests,
         "weather_fit_hint": f.weather_fit,
         "time_fit": f.time_fit,
+        # Drive from the traveller at the planned time ("google_traffic" = live/predicted traffic).
+        "drive_traffic": f.traffic if f.travel_method and f.travel_method != "estimate" else "unknown",
         "local_names": c.alt_names[:3],
         "background": _clip(c.wiki_summary, 260),
         # Sourced facts the explanation may rely on; cite their ids in cited_fact_ids.
