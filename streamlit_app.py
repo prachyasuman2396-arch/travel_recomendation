@@ -75,7 +75,18 @@ SETTINGS = LiteSettings(data_dir=ROOT / "data", contact_email=secret("CONTACT_EM
 
 
 def run(coro):
-    """Run a coroutine from Streamlit's script thread."""
+    """Run a coroutine safely from Streamlit's script thread."""
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = None
+    if loop and loop.is_running():
+        try:
+            import nest_asyncio
+            nest_asyncio.apply()
+        except ImportError:
+            pass
+        return loop.run_until_complete(coro)
     return asyncio.run(coro)
 
 
