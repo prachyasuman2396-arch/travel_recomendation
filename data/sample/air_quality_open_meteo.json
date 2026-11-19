@@ -1,0 +1,12 @@
+{
+  "_notice": "MOCK DATA for offline development. Coordinates approximate; descriptions, ratings, reviews and photos are synthetic and must never be presented as real.",
+  "latitude": 20.2961,
+  "longitude": 85.8245,
+  "timezone": "Asia/Kolkata",
+  "current": {
+    "time": "2026-11-16T10:00",
+    "us_aqi": 112,
+    "pm2_5": 41.3,
+    "pm10": 78.2
+  }
+}

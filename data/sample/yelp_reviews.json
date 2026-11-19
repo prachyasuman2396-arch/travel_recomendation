@@ -1,0 +1,204 @@
+{
+  "_notice": "MOCK DATA for offline development. Coordinates approximate; descriptions, ratings, reviews and photos are synthetic and must never be presented as real.",
+  "by_business": {
+    "mock_y_nandankanan": {
+      "reviews": [
+        {
+          "id": "mock_y_nandankanan_r0",
+          "rating": 5,
+          "text": "Beautiful green campus and the white tigers were amazing. Clean paths and plenty of shade.",
+          "time_created": "2025-01-12 10:15:00"
+        },
+        {
+          "id": "mock_y_nandankanan_r1",
+          "rating": 3,
+          "text": "Lovely environment but very crowded on Sunday and the food stalls were poor.",
+          "time_created": "2025-02-12 10:15:00"
+        },
+        {
+          "id": "mock_y_nandankanan_r2",
+          "rating": 4,
+          "text": "Great for families. The safari was fun though the queue was long.",
+          "time_created": "2025-03-12 10:15:00"
+        }
+      ],
+      "total": 3
+    },
+    "mock_y_lingaraja": {
+      "reviews": [
+        {
+          "id": "mock_y_lingaraja_r0",
+          "rating": 5,
+          "text": "Breathtaking architecture and a peaceful atmosphere early in the morning.",
+          "time_created": "2025-01-12 10:15:00"
+        },
+        {
+          "id": "mock_y_lingaraja_r1",
+          "rating": 2,
+          "text": "Pandas pushed for money and the crowd was overwhelming. Not very accessible for elderly visitors.",
+          "time_created": "2025-02-12 10:15:00"
+        },
+        {
+          "id": "mock_y_lingaraja_r2",
+          "rating": 4,
+          "text": "Must visit for history lovers. Photography is not allowed inside.",
+          "time_created": "2025-03-12 10:15:00"
+        }
+      ],
+      "total": 3
+    },
+    "mock_y_ekamra_cafe": {
+      "reviews": [
+        {
+          "id": "mock_y_ekamra_cafe_r0",
+          "rating": 4,
+          "text": "Nice coffee after a walk in the garden. Friendly staff.",
+          "time_created": "2025-01-12 10:15:00"
+        },
+        {
+          "id": "mock_y_ekamra_cafe_r1",
+          "rating": 3,
+          "text": "Average snacks, slow service, but the seating is pleasant.",
+          "time_created": "2025-02-12 10:15:00"
+        }
+      ],
+      "total": 2
+    },
+    "mock_y_dalma": {
+      "reviews": [
+        {
+          "id": "mock_y_dalma_r0",
+          "rating": 5,
+          "text": "Authentic Odia thali with delicious dalma and great value.",
+          "time_created": "2025-01-12 10:15:00"
+        },
+        {
+          "id": "mock_y_dalma_r1",
+          "rating": 4,
+          "text": "Tasty food, clean tables, a bit noisy at lunch.",
+          "time_created": "2025-02-12 10:15:00"
+        },
+        {
+          "id": "mock_y_dalma_r2",
+          "rating": 5,
+          "text": "Best place to try local cuisine. Staff explained every dish.",
+          "time_created": "2025-03-12 10:15:00"
+        }
+      ],
+      "total": 3
+    },
+    "mock_y_state_museum": {
+      "reviews": [
+        {
+          "id": "mock_y_state_museum_r0",
+          "rating": 4,
+          "text": "Fascinating palm-leaf manuscripts. Some galleries were dusty and poorly lit.",
+          "time_created": "2025-01-12 10:15:00"
+        },
+        {
+          "id": "mock_y_state_museum_r1",
+          "rating": 4,
+          "text": "Quiet and informative, good for a rainy afternoon.",
+          "time_created": "2025-02-12 10:15:00"
+        },
+        {
+          "id": "mock_y_state_museum_r2",
+          "rating": 3,
+          "text": "Interesting collection but facilities like toilets need improvement.",
+          "time_created": "2025-03-12 10:15:00"
+        }
+      ],
+      "total": 3
+    },
+    "mock_y_udaygiri": {
+      "reviews": [
+        {
+          "id": "mock_y_udaygiri_r0",
+          "rating": 5,
+          "text": "Fantastic views from the top and the carvings are stunning. Wear good shoes.",
+          "time_created": "2025-01-12 10:15:00"
+        },
+        {
+          "id": "mock_y_udaygiri_r1",
+          "rating": 4,
+          "text": "Monkeys everywhere, keep your food safe. Peaceful in the morning.",
+          "time_created": "2025-02-12 10:15:00"
+        },
+        {
+          "id": "mock_y_udaygiri_r2",
+          "rating": 4,
+          "text": "Steep steps, not great for wheelchair users, but worth the climb.",
+          "time_created": "2025-03-12 10:15:00"
+        }
+      ],
+      "total": 3
+    },
+    "mock_y_dhauli_pagoda": {
+      "reviews": [
+        {
+          "id": "mock_y_dhauli_pagoda_r0",
+          "rating": 5,
+          "text": "Serene and calm, beautiful sunset over the river.",
+          "time_created": "2025-01-12 10:15:00"
+        },
+        {
+          "id": "mock_y_dhauli_pagoda_r1",
+          "rating": 4,
+          "text": "Peaceful place with fresh air. Limited food options nearby.",
+          "time_created": "2025-02-12 10:15:00"
+        },
+        {
+          "id": "mock_y_dhauli_pagoda_r2",
+          "rating": 5,
+          "text": "Clean, quiet and scenic. Great photography spot.",
+          "time_created": "2025-03-12 10:15:00"
+        }
+      ],
+      "total": 3
+    },
+    "mock_y_esplanade": {
+      "reviews": [
+        {
+          "id": "mock_y_esplanade_r0",
+          "rating": 4,
+          "text": "Good brands and a clean food court. Parking can be slow.",
+          "time_created": "2025-01-12 10:15:00"
+        },
+        {
+          "id": "mock_y_esplanade_r1",
+          "rating": 3,
+          "text": "Crowded on weekends, but fine for a movie.",
+          "time_created": "2025-02-12 10:15:00"
+        },
+        {
+          "id": "mock_y_esplanade_r2",
+          "rating": 4,
+          "text": "Air-conditioned escape from the heat with decent restaurants.",
+          "time_created": "2025-03-12 10:15:00"
+        }
+      ],
+      "total": 3
+    },
+    "mock_y_rajarani_far": {
+      "reviews": [
+        {
+          "id": "mock_y_rajarani_far_r0",
+          "rating": 5,
+          "text": "Beautiful carvings, very quiet compared to the big temples.",
+          "time_created": "2025-01-12 10:15:00"
+        },
+        {
+          "id": "mock_y_rajarani_far_r1",
+          "rating": 4,
+          "text": "Small ticket fee, well maintained lawns.",
+          "time_created": "2025-02-12 10:15:00"
+        }
+      ],
+      "total": 2
+    },
+    "mock_y_no_coords": {
+      "reviews": [],
+      "total": 0
+    }
+  }
+}

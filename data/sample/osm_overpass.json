@@ -1,0 +1,141 @@
+{
+  "_notice": "MOCK DATA for offline development. Coordinates approximate; descriptions, ratings, reviews and photos are synthetic and must never be presented as real.",
+  "version": 0.6,
+  "generator": "mock-overpass",
+  "elements": [
+    {
+      "type": "way",
+      "id": 9001,
+      "center": {
+        "lat": 20.2381,
+        "lon": 85.8337
+      },
+      "tags": {
+        "name": "Lingaraj Temple",
+        "name:or": "ଲିଙ୍ଗରାଜ ମନ୍ଦିର",
+        "name:hi": "लिंगराज मंदिर",
+        "amenity": "place_of_worship",
+        "religion": "hindu",
+        "historic": "temple",
+        "wikipedia": "en:Lingaraja Temple",
+        "wikidata": "Q_mock_lingaraj",
+        "heritage": "2"
+      }
+    },
+    {
+      "type": "way",
+      "id": 9002,
+      "center": {
+        "lat": 20.3043,
+        "lon": 85.8178
+      },
+      "tags": {
+        "name": "Ekamra Kanan",
+        "name:or": "ଏକାମ୍ର କାନନ",
+        "leisure": "park",
+        "wheelchair": "yes",
+        "fee": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9003,
+      "lat": 20.2438,
+      "lon": 85.8382,
+      "tags": {
+        "name": "Parasurameswara Temple",
+        "name:or": "ପରଶୁରାମେଶ୍ୱର ମନ୍ଦିର",
+        "amenity": "place_of_worship",
+        "religion": "hindu",
+        "historic": "temple",
+        "wikipedia": "en:Parashurameshvara Temple",
+        "wikidata": "Q_mock_parasurameswara"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9004,
+      "lat": 20.2422,
+      "lon": 85.8478,
+      "tags": {
+        "name": "Brahmeswara Temple",
+        "amenity": "place_of_worship",
+        "religion": "hindu",
+        "historic": "temple"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9005,
+      "lat": 20.2377,
+      "lon": 85.8371,
+      "tags": {
+        "name": "Ananta Vasudeva Temple",
+        "amenity": "place_of_worship",
+        "religion": "hindu",
+        "historic": "temple",
+        "denomination": "vaishnavism"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9006,
+      "lat": 19.8049,
+      "lon": 85.8179,
+      "tags": {
+        "name": "Jagannath Temple",
+        "name:or": "ଶ୍ରୀ ଜଗନ୍ନାଥ ମନ୍ଦିର",
+        "amenity": "place_of_worship",
+        "religion": "hindu",
+        "wikipedia": "en:Jagannath Temple, Puri",
+        "wikidata": "Q_mock_jagannath"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9007,
+      "lat": 19.8877,
+      "lon": 86.0946,
+      "tags": {
+        "name": "Konark Sun Temple",
+        "historic": "archaeological_site",
+        "tourism": "attraction",
+        "heritage": "1",
+        "wikipedia": "en:Konark Sun Temple",
+        "wikidata": "Q_mock_konark"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9008,
+      "lat": 20.2629,
+      "lon": 85.7857,
+      "tags": {
+        "name": "Udayagiri Caves",
+        "historic": "archaeological_site",
+        "tourism": "attraction",
+        "wikipedia": "en:Udayagiri and Khandagiri Caves",
+        "wikidata": "Q_mock_udayagiri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9009,
+      "lat": 20.1931,
+      "lon": 85.8401,
+      "tags": {
+        "name": "Dhauli Hill Viewpoint",
+        "tourism": "viewpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9010,
+      "lat": 20.2711,
+      "lon": 85.8306,
+      "tags": {
+        "tourism": "attraction"
+      }
+    }
+  ]
+}

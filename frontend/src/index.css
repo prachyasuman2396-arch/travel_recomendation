@@ -1,0 +1,106 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-sans: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #f6f7f4;
+  --color-ink: #18262e;
+  --color-ink-soft: #4a5a62;
+  --color-mist: #e2e8e3;
+  --color-line: #cfd8d2;
+  --color-sal: #2e6a4e;
+  --color-sal-deep: #1f4c37;
+  --color-monsoon: #2b5c88;
+  --color-turmeric: #e0a32a;
+  --color-danger: #a33a2a;
+
+  --radius-card: 14px;
+  --radius-control: 10px;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "tnum" 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-monsoon);
+    outline-offset: 2px;
+  }
+}
+
+/* Numbers (distances, ratings, ranks) line up in columns */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Contour pattern used behind placeholders where no permitted photo exists */
+.contours {
+  background-image: repeating-radial-gradient(
+    circle at 30% 40%,
+    transparent 0 14px,
+    color-mix(in srgb, currentColor 18%, transparent) 14px 15px
+  );
+}
+
+/* The one orchestrated motion: the hero radius ring draws once */
+@keyframes draw-ring {
+  from {
+    stroke-dashoffset: 1200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.ring-draw {
+  stroke-dasharray: 1200;
+  animation: draw-ring 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ring-draw {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}
+
+/* Leaflet pins rendered as divIcons (no image assets) */
+.pin {
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  font: 700 12px/1 var(--font-sans);
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgb(24 38 46 / 0.35);
+}
+.pin-rank {
+  width: 28px;
+  height: 28px;
+  background: var(--color-turmeric);
+  color: var(--color-ink);
+}
+.pin-candidate {
+  width: 12px;
+  height: 12px;
+  background: var(--color-ink-soft);
+}
+.pin-user {
+  width: 18px;
+  height: 18px;
+  background: var(--color-monsoon);
+}
+.leaflet-container {
+  font-family: var(--font-sans);
+}

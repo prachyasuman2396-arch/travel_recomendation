@@ -1,0 +1,5 @@
+# Optional: Transformer-based review sentiment (SENTIMENT_BACKEND=transformers).
+# Kept separate because torch is large; the default lexicon backend needs none of this.
+-r requirements.txt
+transformers>=4.44,<6.0
+torch>=2.3

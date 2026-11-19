@@ -1,0 +1,60 @@
+{
+  "_notice": "Curated festival calendar with sources. Lunar-calendar dates can differ by a day between panchangs; see date_note.",
+  "events": [
+    {
+      "name": "Kartika Purnima / Boita Bandana",
+      "start_date": "2026-11-24", "end_date": "2026-11-24",
+      "location_name": "Bindu Sagar, Bhubaneswar (and river ghats statewide)",
+      "latitude": 20.2399, "longitude": 85.8359, "radius_km": 3,
+      "poi_names": ["Bindu Sagar Lake", "Lingaraj Temple"],
+      "crowd_impact": "high",
+      "description": "Crowds gather before dawn at water bodies such as Bindu Sagar to float miniature boats.",
+      "date_note": "Drik Panchang lists 24 Nov 2026; some calendars list 23 Nov. Verify with a local panjika.",
+      "source_url": "https://hindutone.com/festivals/boita-bandana-bali-jatra-2026-odisha/"
+    },
+    {
+      "name": "Konark Dance Festival",
+      "start_date": "2026-12-01", "end_date": "2026-12-05",
+      "location_name": "Open Air Auditorium, Konark Sun Temple",
+      "latitude": 19.8876, "longitude": 86.0945, "radius_km": 3,
+      "poi_names": ["Konark Sun Temple"],
+      "crowd_impact": "high",
+      "description": "Evening classical dance performances beside the Sun Temple; large visitor numbers.",
+      "date_note": null,
+      "source_url": "https://www.incredibleindia.gov.in/en/festivals-and-events/odisha/konark-festival-2026"
+    },
+    {
+      "name": "Maha Shivaratri",
+      "start_date": "2027-03-06", "end_date": "2027-03-06",
+      "location_name": "Lingaraj Temple, Bhubaneswar",
+      "latitude": 20.2382, "longitude": 85.8338, "radius_km": 2,
+      "poi_names": ["Lingaraj Temple"],
+      "crowd_impact": "extreme",
+      "description": "Lingaraj Temple draws very large crowds of devotees for Shivaratri.",
+      "date_note": null,
+      "source_url": "https://publicholidays.in/?p=2493"
+    },
+    {
+      "name": "Puri Rath Yatra",
+      "start_date": "2027-07-05", "end_date": "2027-07-05",
+      "location_name": "Grand Road, Puri",
+      "latitude": 19.8048, "longitude": 85.8180, "radius_km": 6,
+      "poi_names": ["Shree Jagannath Temple Puri", "Puri Beach"],
+      "crowd_impact": "extreme",
+      "description": "The chariot festival; Puri is extremely crowded and traffic is heavily restricted.",
+      "date_note": "Bahuda Yatra (return journey) on 13 July 2027.",
+      "source_url": "https://odishabytes.com/rath-yatra-2027-odisha-govt-sets-plans-rolling-for-chariot-festival-know-your-dates/amp/"
+    },
+    {
+      "name": "Puri Bahuda Yatra",
+      "start_date": "2027-07-13", "end_date": "2027-07-13",
+      "location_name": "Grand Road, Puri",
+      "latitude": 19.8048, "longitude": 85.8180, "radius_km": 6,
+      "poi_names": ["Shree Jagannath Temple Puri", "Puri Beach"],
+      "crowd_impact": "extreme",
+      "description": "Return journey of the chariots; very large crowds in Puri.",
+      "date_note": null,
+      "source_url": "https://odishabytes.com/rath-yatra-2027-odisha-govt-sets-plans-rolling-for-chariot-festival-know-your-dates/amp/"
+    }
+  ]
+}

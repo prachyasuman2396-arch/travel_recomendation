@@ -1,0 +1,14 @@
+[server]
+headless = true
+# Render sets PORT; the start command passes it. Streamlit Cloud ignores this file's port.
+enableXsrfProtection = true
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "light"
+primaryColor = "#c2410c"
+backgroundColor = "#fbf8f3"
+secondaryBackgroundColor = "#f1ebe1"
+textColor = "#1f2933"

@@ -1,0 +1,50 @@
+{
+  "_notice": "Curated, real-world facts with sources. Checked 2026-11-17. Rules and prices change: re-verify periodically (checked_at). Only facts listed here are marked 'verified' and may be used for hard filtering.",
+  "facts": [
+    {
+      "place": {"name": "Lingaraj Temple", "latitude": 20.2382, "longitude": 85.8338},
+      "fact_key": "non_hindu_entry",
+      "value": {"allowed": false, "viewing_platform": true},
+      "display_text": "Non-Hindus may not enter the temple complex; a viewing platform outside the wall gives a view of the temple.",
+      "source_name": "Odisha Tourism",
+      "source_url": "https://odishatourism.gov.in/en/discover/attractions/temples-monuments/lingaraja-temple.html",
+      "evidence": "The temple is out of bounds for non-Hindus. However, one can get a view of the entire temple complex and take photographs from a raised platform erected specially for the tourists just outside the temple complex."
+    },
+    {
+      "place": {"name": "Lingaraj Temple", "latitude": 20.2382, "longitude": 85.8338},
+      "fact_key": "phones_allowed",
+      "value": {"allowed": false},
+      "display_text": "Mobile phones and cameras are not allowed inside; lockers are available at the entrance.",
+      "source_name": "AAA TripCanvas",
+      "source_url": "https://www.aaa.com/tripcanvas/attraction/lingaraja-temple-VA100886",
+      "evidence": "Cameras and other electronic items like mobile phones aren't allowed at the temple."
+    },
+    {
+      "place": {"name": "Lingaraj Temple", "latitude": 20.2382, "longitude": 85.8338},
+      "fact_key": "entry_fee",
+      "value": {"indian": 0, "foreign": 0, "currency": "INR"},
+      "display_text": "No entry fee.",
+      "source_name": "Visit Bhubaneswar",
+      "source_url": "https://visit.bhubaneswar.me/explore/temples/lingaraj",
+      "evidence": "Entry Fee Free."
+    },
+    {
+      "place": {"name": "Shree Jagannath Temple Puri", "latitude": 19.8048, "longitude": 85.8180},
+      "fact_key": "non_hindu_entry",
+      "value": {"allowed": false, "viewing_platform": null},
+      "display_text": "Entry inside the temple is allowed only to Hindus.",
+      "source_name": "Daily Jagran",
+      "source_url": "https://www.thedailyjagran.com/spiritual/5-sacred-hindu-temples-where-nonhindus-are-not-allowed-and-why-10334044",
+      "evidence": "entry inside the temple is allowed only to Hindus."
+    },
+    {
+      "place": {"name": "Konark Sun Temple", "latitude": 19.8876, "longitude": 86.0945},
+      "fact_key": "entry_fee",
+      "value": {"indian": 40, "indian_card": 35, "foreign": 600, "foreign_card": 550, "currency": "INR"},
+      "display_text": "Entry ₹40 for Indians (₹35 by card); ₹600 for foreign visitors (₹550 by card).",
+      "source_name": "Organiser (Jan 2025)",
+      "source_url": "https://organiser.org/2025/01/04/272005/bharat/asi-reports-historic-revenue-from-konarks-sun-temple-earns-rs-1-48-crore-in-december-2024/",
+      "evidence": "The entry fee for the renowned Sun Temple of Konark is Rs 40 per person for cash payments and Rs 35 for card payments. For foreign tourists, the entry fee is Rs 600 per person for cash payments and Rs 550 for card payments."
+    }
+  ]
+}

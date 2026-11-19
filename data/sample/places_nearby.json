@@ -1,0 +1,1518 @@
+{
+  "_notice": "MOCK DATA for offline development. Coordinates approximate; descriptions, ratings, reviews and photos are synthetic and must never be presented as real.",
+  "places": [
+    {
+      "id": "mock_g_nandankanan",
+      "displayName": {
+        "text": "Nandankanan Zoological Park",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Barang, Bhubaneswar, Odisha 754005",
+      "location": {
+        "latitude": 20.3958,
+        "longitude": 85.8189
+      },
+      "types": [
+        "zoo",
+        "tourist_attraction"
+      ],
+      "primaryType": "zoo",
+      "editorialSummary": {
+        "text": "Large zoo and botanical garden beside Kanjia lake with white tigers and a safari.",
+        "languageCode": "en"
+      },
+      "rating": 4.4,
+      "userRatingCount": 61234,
+      "businessStatus": "OPERATIONAL",
+      "websiteUri": "https://nandankanan.org",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: Closed",
+          "Tuesday: 7:30 AM – 5:30 PM",
+          "Wednesday: 7:30 AM – 5:30 PM",
+          "Thursday: 7:30 AM – 5:30 PM",
+          "Friday: 7:30 AM – 5:30 PM",
+          "Saturday: 7:30 AM – 5:30 PM",
+          "Sunday: 7:30 AM – 5:30 PM"
+        ]
+      },
+      "reviews": [
+        {
+          "name": "places/mock_g_nandankanan/reviews/r0",
+          "rating": 5,
+          "text": {
+            "text": "White tigers dekhne layak hai. Kids loved the safari, bahut maza aaya.",
+            "languageCode": "hi-Latn"
+          },
+          "publishTime": "2026-01-10T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 1",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_nandankanan/reviews/r1",
+          "rating": 4,
+          "text": {
+            "text": "Huge campus and green, but very crowded on Sundays. Carry water.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-02-11T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 2",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_nandankanan/reviews/r2",
+          "rating": 3,
+          "text": {
+            "text": "Nice place but food stalls are poor and toilets not clean.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-03-12T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 3",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_nandankanan/reviews/r3",
+          "rating": 5,
+          "text": {
+            "text": "Best zoo in Odisha. Go early morning, it is calm and animals are active.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-04-13T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 4",
+            "uri": ""
+          }
+        }
+      ],
+      "goodForChildren": true,
+      "photos": [
+        {
+          "name": "places/mock_g_nandankanan/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_lingaraj",
+      "displayName": {
+        "text": "Lingaraj Temple",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Lingaraj Rd, Old Town, Bhubaneswar, Odisha 751002",
+      "location": {
+        "latitude": 20.2382,
+        "longitude": 85.8338
+      },
+      "types": [
+        "hindu_temple",
+        "place_of_worship",
+        "tourist_attraction"
+      ],
+      "primaryType": "hindu_temple",
+      "editorialSummary": {
+        "text": "11th-century Kalinga-style temple dedicated to Harihara.",
+        "languageCode": "en"
+      },
+      "rating": 4.7,
+      "userRatingCount": 48211,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 6:00 AM – 9:00 PM",
+          "Tuesday: 6:00 AM – 9:00 PM",
+          "Wednesday: 6:00 AM – 9:00 PM",
+          "Thursday: 6:00 AM – 9:00 PM",
+          "Friday: 6:00 AM – 9:00 PM",
+          "Saturday: 6:00 AM – 9:00 PM",
+          "Sunday: 6:00 AM – 9:00 PM"
+        ]
+      },
+      "reviews": [
+        {
+          "name": "places/mock_g_lingaraj/reviews/r0",
+          "rating": 5,
+          "text": {
+            "text": "Peaceful early morning darshan. Phones not allowed inside, lockers available.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-01-10T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 1",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_lingaraj/reviews/r1",
+          "rating": 4,
+          "text": {
+            "text": "Bahut purana aur sundar mandir. Crowd zyada hai on Mondays.",
+            "languageCode": "hi-Latn"
+          },
+          "publishTime": "2026-02-11T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 2",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_lingaraj/reviews/r2",
+          "rating": 2,
+          "text": {
+            "text": "Pandas ask for money. Very crowded and difficult for elderly.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-03-12T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 3",
+            "uri": ""
+          }
+        }
+      ],
+      "photos": [
+        {
+          "name": "places/mock_g_lingaraj/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_udayagiri",
+      "displayName": {
+        "text": "Udayagiri and Khandagiri Caves",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Khandagiri, Bhubaneswar, Odisha 751030",
+      "location": {
+        "latitude": 20.2627,
+        "longitude": 85.7856
+      },
+      "types": [
+        "tourist_attraction",
+        "historical_landmark"
+      ],
+      "primaryType": "historical_landmark",
+      "editorialSummary": {
+        "text": "Rock-cut Jain caves from the 2nd century BCE on twin hills.",
+        "languageCode": "en"
+      },
+      "rating": 4.5,
+      "userRatingCount": 27654,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 6:00 AM – 6:00 PM",
+          "Tuesday: 6:00 AM – 6:00 PM",
+          "Wednesday: 6:00 AM – 6:00 PM",
+          "Thursday: 6:00 AM – 6:00 PM",
+          "Friday: 6:00 AM – 6:00 PM",
+          "Saturday: 6:00 AM – 6:00 PM",
+          "Sunday: 6:00 AM – 6:00 PM"
+        ]
+      },
+      "reviews": [
+        {
+          "name": "places/mock_g_udayagiri/reviews/r0",
+          "rating": 5,
+          "text": {
+            "text": "Stunning carvings and views. Steep steps, wear good shoes.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-01-10T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 1",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_udayagiri/reviews/r1",
+          "rating": 4,
+          "text": {
+            "text": "Monkeys are naughty, keep food in bag. Peaceful in the morning.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-02-11T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 2",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_udayagiri/reviews/r2",
+          "rating": 3,
+          "text": {
+            "text": "Not wheelchair friendly at all, lots of climbing.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-03-12T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 3",
+            "uri": ""
+          }
+        }
+      ],
+      "accessibilityOptions": {
+        "wheelchairAccessibleEntrance": false
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_udayagiri/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_dhauli",
+      "displayName": {
+        "text": "Dhauli Shanti Stupa",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Dhauli, Bhubaneswar, Odisha 752104",
+      "location": {
+        "latitude": 20.1925,
+        "longitude": 85.8395
+      },
+      "types": [
+        "tourist_attraction",
+        "place_of_worship"
+      ],
+      "primaryType": "tourist_attraction",
+      "editorialSummary": {
+        "text": "White peace pagoda on Dhauli hill overlooking the Daya river.",
+        "languageCode": "en"
+      },
+      "rating": 4.5,
+      "userRatingCount": 22140,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 6:00 AM – 6:00 PM",
+          "Tuesday: 6:00 AM – 6:00 PM",
+          "Wednesday: 6:00 AM – 6:00 PM",
+          "Thursday: 6:00 AM – 6:00 PM",
+          "Friday: 6:00 AM – 6:00 PM",
+          "Saturday: 6:00 AM – 6:00 PM",
+          "Sunday: 6:00 AM – 6:00 PM"
+        ]
+      },
+      "reviews": [
+        {
+          "name": "places/mock_g_dhauli/reviews/r0",
+          "rating": 5,
+          "text": {
+            "text": "Very calm and scenic, beautiful sunset over the Daya river.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-01-10T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 1",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_dhauli/reviews/r1",
+          "rating": 5,
+          "text": {
+            "text": "Peaceful, clean, fresh air. Light and sound show is nice.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-02-11T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 2",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_dhauli/reviews/r2",
+          "rating": 4,
+          "text": {
+            "text": "Limited food options nearby but worth the drive.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-03-12T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 3",
+            "uri": ""
+          }
+        }
+      ],
+      "accessibilityOptions": {
+        "wheelchairAccessibleEntrance": false
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_dhauli/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_ekamra_kanan",
+      "displayName": {
+        "text": "Ekamra Kanan Botanical Gardens",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Nayapalli, Bhubaneswar, Odisha 751015",
+      "location": {
+        "latitude": 20.3045,
+        "longitude": 85.818
+      },
+      "types": [
+        "park",
+        "tourist_attraction"
+      ],
+      "primaryType": "park",
+      "editorialSummary": {
+        "text": "Botanical garden with a rose garden, cactus house and a boating lake.",
+        "languageCode": "en"
+      },
+      "rating": 4.3,
+      "userRatingCount": 15322,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 7:00 AM – 7:00 PM",
+          "Tuesday: 7:00 AM – 7:00 PM",
+          "Wednesday: 7:00 AM – 7:00 PM",
+          "Thursday: 7:00 AM – 7:00 PM",
+          "Friday: 7:00 AM – 7:00 PM",
+          "Saturday: 7:00 AM – 7:00 PM",
+          "Sunday: 7:00 AM – 7:00 PM"
+        ]
+      },
+      "reviews": [
+        {
+          "name": "places/mock_g_ekamra_kanan/reviews/r0",
+          "rating": 5,
+          "text": {
+            "text": "Serene garden with lovely rose section. Great for a quiet evening walk.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-01-10T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 1",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_ekamra_kanan/reviews/r1",
+          "rating": 4,
+          "text": {
+            "text": "Clean and well maintained, boating is fun for kids.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-02-11T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 2",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_ekamra_kanan/reviews/r2",
+          "rating": 4,
+          "text": {
+            "text": "Peaceful jagah, but parking thoda mushkil hai weekends pe.",
+            "languageCode": "hi-Latn"
+          },
+          "publishTime": "2026-03-12T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 3",
+            "uri": ""
+          }
+        }
+      ],
+      "accessibilityOptions": {
+        "wheelchairAccessibleEntrance": true
+      },
+      "goodForChildren": true,
+      "photos": [
+        {
+          "name": "places/mock_g_ekamra_kanan/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_mukteswar",
+      "displayName": {
+        "text": "Mukteswar Temple",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Kedar Gouri Vihar, Bhubaneswar, Odisha 751002",
+      "location": {
+        "latitude": 20.2427,
+        "longitude": 85.8418
+      },
+      "types": [
+        "hindu_temple",
+        "place_of_worship"
+      ],
+      "primaryType": "hindu_temple",
+      "editorialSummary": {
+        "text": "10th-century temple known for its carved torana arch.",
+        "languageCode": "en"
+      },
+      "rating": 4.6,
+      "userRatingCount": 6120,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 6:00 AM – 9:00 PM",
+          "Tuesday: 6:00 AM – 9:00 PM",
+          "Wednesday: 6:00 AM – 9:00 PM",
+          "Thursday: 6:00 AM – 9:00 PM",
+          "Friday: 6:00 AM – 9:00 PM",
+          "Saturday: 6:00 AM – 9:00 PM",
+          "Sunday: 6:00 AM – 9:00 PM"
+        ]
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_mukteswar/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_rajarani",
+      "displayName": {
+        "text": "Rajarani Temple",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Tankapani Rd, Bhubaneswar, Odisha 751002",
+      "location": {
+        "latitude": 20.244,
+        "longitude": 85.8436
+      },
+      "types": [
+        "hindu_temple",
+        "tourist_attraction"
+      ],
+      "primaryType": "hindu_temple",
+      "editorialSummary": {
+        "text": "Sandstone temple with no presiding deity, famed for sculpture.",
+        "languageCode": "en"
+      },
+      "rating": 4.5,
+      "userRatingCount": 5873,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 6:00 AM – 6:00 PM",
+          "Tuesday: 6:00 AM – 6:00 PM",
+          "Wednesday: 6:00 AM – 6:00 PM",
+          "Thursday: 6:00 AM – 6:00 PM",
+          "Friday: 6:00 AM – 6:00 PM",
+          "Saturday: 6:00 AM – 6:00 PM",
+          "Sunday: 6:00 AM – 6:00 PM"
+        ]
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_rajarani/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_state_museum",
+      "displayName": {
+        "text": "Odisha State Museum",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Lewis Rd, Bhubaneswar, Odisha 751014",
+      "location": {
+        "latitude": 20.2575,
+        "longitude": 85.8418
+      },
+      "types": [
+        "museum",
+        "tourist_attraction"
+      ],
+      "primaryType": "museum",
+      "editorialSummary": {
+        "text": "Archaeology, palm-leaf manuscripts and natural history galleries.",
+        "languageCode": "en"
+      },
+      "rating": 4.3,
+      "userRatingCount": 7012,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: Closed",
+          "Tuesday: 10:00 AM – 5:00 PM",
+          "Wednesday: 10:00 AM – 5:00 PM",
+          "Thursday: 10:00 AM – 5:00 PM",
+          "Friday: 10:00 AM – 5:00 PM",
+          "Saturday: 10:00 AM – 5:00 PM",
+          "Sunday: 10:00 AM – 5:00 PM"
+        ]
+      },
+      "accessibilityOptions": {
+        "wheelchairAccessibleEntrance": true
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_state_museum/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_bindu_sagar",
+      "displayName": {
+        "text": "Bindu Sagar Lake",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Old Town, Bhubaneswar, Odisha 751002",
+      "location": {
+        "latitude": 20.2399,
+        "longitude": 85.8359
+      },
+      "types": [
+        "tourist_attraction"
+      ],
+      "primaryType": "tourist_attraction",
+      "editorialSummary": {
+        "text": "Sacred temple tank near Lingaraj surrounded by small shrines.",
+        "languageCode": "en"
+      },
+      "rating": 4.2,
+      "userRatingCount": 3102,
+      "businessStatus": "OPERATIONAL",
+      "photos": [
+        {
+          "name": "places/mock_g_bindu_sagar/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_science_centre",
+      "displayName": {
+        "text": "Regional Science Centre",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Acharya Vihar, Bhubaneswar, Odisha 751013",
+      "location": {
+        "latitude": 20.2985,
+        "longitude": 85.8228
+      },
+      "types": [
+        "museum",
+        "tourist_attraction"
+      ],
+      "primaryType": "museum",
+      "editorialSummary": {
+        "text": "Hands-on science galleries, a dinosaur park and a 3D theatre.",
+        "languageCode": "en"
+      },
+      "rating": 4.3,
+      "userRatingCount": 9871,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: Closed",
+          "Tuesday: 10:00 AM – 5:00 PM",
+          "Wednesday: 10:00 AM – 5:00 PM",
+          "Thursday: 10:00 AM – 5:00 PM",
+          "Friday: 10:00 AM – 5:00 PM",
+          "Saturday: 10:00 AM – 5:00 PM",
+          "Sunday: 10:00 AM – 5:00 PM"
+        ]
+      },
+      "accessibilityOptions": {
+        "wheelchairAccessibleEntrance": true
+      },
+      "goodForChildren": true,
+      "photos": [
+        {
+          "name": "places/mock_g_science_centre/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_tribal_museum",
+      "displayName": {
+        "text": "Museum of Tribal Arts and Artefacts",
+        "languageCode": "en"
+      },
+      "formattedAddress": "CRP Square, Bhubaneswar, Odisha 751003",
+      "location": {
+        "latitude": 20.3006,
+        "longitude": 85.8261
+      },
+      "types": [
+        "museum"
+      ],
+      "primaryType": "museum",
+      "editorialSummary": {
+        "text": "Collections of tribal dress, ornaments and implements of Odisha.",
+        "languageCode": "en"
+      },
+      "rating": 4.4,
+      "userRatingCount": 2210,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: Closed",
+          "Tuesday: 10:00 AM – 5:00 PM",
+          "Wednesday: 10:00 AM – 5:00 PM",
+          "Thursday: 10:00 AM – 5:00 PM",
+          "Friday: 10:00 AM – 5:00 PM",
+          "Saturday: 10:00 AM – 5:00 PM",
+          "Sunday: 10:00 AM – 5:00 PM"
+        ]
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_tribal_museum/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_ekamra_haat",
+      "displayName": {
+        "text": "Ekamra Haat",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Madhusudan Nagar, Bhubaneswar, Odisha 751001",
+      "location": {
+        "latitude": 20.2969,
+        "longitude": 85.8372
+      },
+      "types": [
+        "shopping_mall",
+        "tourist_attraction"
+      ],
+      "primaryType": "market",
+      "editorialSummary": {
+        "text": "Handicraft and handloom market with Odia crafts stalls.",
+        "languageCode": "en"
+      },
+      "rating": 4.1,
+      "userRatingCount": 8344,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 10:00 AM – 9:00 PM",
+          "Tuesday: 10:00 AM – 9:00 PM",
+          "Wednesday: 10:00 AM – 9:00 PM",
+          "Thursday: 10:00 AM – 9:00 PM",
+          "Friday: 10:00 AM – 9:00 PM",
+          "Saturday: 10:00 AM – 9:00 PM",
+          "Sunday: 10:00 AM – 9:00 PM"
+        ]
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_ekamra_haat/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_esplanade",
+      "displayName": {
+        "text": "Esplanade One Mall",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Rasulgarh, Bhubaneswar, Odisha 751010",
+      "location": {
+        "latitude": 20.2908,
+        "longitude": 85.8586
+      },
+      "types": [
+        "shopping_mall"
+      ],
+      "primaryType": "shopping_mall",
+      "editorialSummary": {
+        "text": "Large shopping mall with a multiplex and food court.",
+        "languageCode": "en"
+      },
+      "rating": 4.3,
+      "userRatingCount": 40876,
+      "businessStatus": "OPERATIONAL",
+      "websiteUri": "https://example.invalid/esplanade",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 10:00 AM – 10:00 PM",
+          "Tuesday: 10:00 AM – 10:00 PM",
+          "Wednesday: 10:00 AM – 10:00 PM",
+          "Thursday: 10:00 AM – 10:00 PM",
+          "Friday: 10:00 AM – 10:00 PM",
+          "Saturday: 10:00 AM – 10:00 PM",
+          "Sunday: 10:00 AM – 10:00 PM"
+        ]
+      },
+      "accessibilityOptions": {
+        "wheelchairAccessibleEntrance": true
+      },
+      "goodForChildren": true,
+      "photos": [
+        {
+          "name": "places/mock_g_esplanade/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_chandaka",
+      "displayName": {
+        "text": "Chandaka Dampara Wildlife Sanctuary",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Chandaka, Bhubaneswar, Odisha 754005",
+      "location": {
+        "latitude": 20.326,
+        "longitude": 85.695
+      },
+      "types": [
+        "national_park",
+        "tourist_attraction"
+      ],
+      "primaryType": "national_park",
+      "editorialSummary": {
+        "text": "Forested sanctuary known for elephants and quiet trails.",
+        "languageCode": "en"
+      },
+      "rating": 4.2,
+      "userRatingCount": 3540,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 6:00 AM – 6:00 PM",
+          "Tuesday: 6:00 AM – 6:00 PM",
+          "Wednesday: 6:00 AM – 6:00 PM",
+          "Thursday: 6:00 AM – 6:00 PM",
+          "Friday: 6:00 AM – 6:00 PM",
+          "Saturday: 6:00 AM – 6:00 PM",
+          "Sunday: 6:00 AM – 6:00 PM"
+        ]
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_chandaka/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_deras",
+      "displayName": {
+        "text": "Deras Dam",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Deras, Odisha 752054",
+      "location": {
+        "latitude": 20.406,
+        "longitude": 85.709
+      },
+      "types": [
+        "tourist_attraction"
+      ],
+      "primaryType": "tourist_attraction",
+      "editorialSummary": {
+        "text": "Reservoir inside the Chandaka forest, popular for sunsets and picnics.",
+        "languageCode": "en"
+      },
+      "rating": 4.3,
+      "userRatingCount": 2790,
+      "businessStatus": "OPERATIONAL",
+      "reviews": [
+        {
+          "name": "places/mock_g_deras/reviews/r0",
+          "rating": 5,
+          "text": {
+            "text": "Quiet dam inside the forest, amazing sunset. Very few people on weekdays.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-01-10T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 1",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_deras/reviews/r1",
+          "rating": 4,
+          "text": {
+            "text": "Scenic and peaceful but no facilities, carry your own food and water.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-02-11T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 2",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_deras/reviews/r2",
+          "rating": 4,
+          "text": {
+            "text": "Monsoon mein bahut sundar lagta hai. Road is a bit rough.",
+            "languageCode": "hi-Latn"
+          },
+          "publishTime": "2026-03-12T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 3",
+            "uri": ""
+          }
+        }
+      ],
+      "photos": [
+        {
+          "name": "places/mock_g_deras/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_hirapur",
+      "displayName": {
+        "text": "Chausath Yogini Temple Hirapur",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Hirapur, Bhubaneswar, Odisha 752100",
+      "location": {
+        "latitude": 20.2213,
+        "longitude": 85.8768
+      },
+      "types": [
+        "hindu_temple",
+        "historical_landmark"
+      ],
+      "primaryType": "hindu_temple",
+      "editorialSummary": {
+        "text": "Circular hypaethral temple of 64 yoginis.",
+        "languageCode": "en"
+      },
+      "rating": 4.6,
+      "userRatingCount": 2633,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 6:00 AM – 6:00 PM",
+          "Tuesday: 6:00 AM – 6:00 PM",
+          "Wednesday: 6:00 AM – 6:00 PM",
+          "Thursday: 6:00 AM – 6:00 PM",
+          "Friday: 6:00 AM – 6:00 PM",
+          "Saturday: 6:00 AM – 6:00 PM",
+          "Sunday: 6:00 AM – 6:00 PM"
+        ]
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_hirapur/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_atri",
+      "displayName": {
+        "text": "Atri Hot Spring",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Atri, Khordha, Odisha 752050",
+      "location": {
+        "latitude": 20.16,
+        "longitude": 85.51
+      },
+      "types": [
+        "tourist_attraction"
+      ],
+      "primaryType": "tourist_attraction",
+      "editorialSummary": {
+        "text": "Sulphur hot spring with a small Hatakeswar temple.",
+        "languageCode": "en"
+      },
+      "rating": 4.0,
+      "userRatingCount": 1890,
+      "businessStatus": "OPERATIONAL",
+      "photos": [
+        {
+          "name": "places/mock_g_atri/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_pipli",
+      "displayName": {
+        "text": "Pipli Applique Village",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Pipli, Puri, Odisha 752104",
+      "location": {
+        "latitude": 20.115,
+        "longitude": 85.832
+      },
+      "types": [
+        "tourist_attraction",
+        "store"
+      ],
+      "primaryType": "market",
+      "editorialSummary": {
+        "text": "Village famous for colourful applique craft shops along the highway.",
+        "languageCode": "en"
+      },
+      "rating": 4.2,
+      "userRatingCount": 1544,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 10:00 AM – 9:00 PM",
+          "Tuesday: 10:00 AM – 9:00 PM",
+          "Wednesday: 10:00 AM – 9:00 PM",
+          "Thursday: 10:00 AM – 9:00 PM",
+          "Friday: 10:00 AM – 9:00 PM",
+          "Saturday: 10:00 AM – 9:00 PM",
+          "Sunday: 10:00 AM – 9:00 PM"
+        ]
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_pipli/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_kalinga_stadium",
+      "displayName": {
+        "text": "Kalinga Stadium",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Nayapalli, Bhubaneswar, Odisha 751012",
+      "location": {
+        "latitude": 20.2867,
+        "longitude": 85.8231
+      },
+      "types": [
+        "stadium",
+        "tourist_attraction"
+      ],
+      "primaryType": "stadium",
+      "editorialSummary": {
+        "text": "International hockey and athletics stadium.",
+        "languageCode": "en"
+      },
+      "rating": 4.5,
+      "userRatingCount": 17234,
+      "businessStatus": "OPERATIONAL",
+      "photos": [
+        {
+          "name": "places/mock_g_kalinga_stadium/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_ram_mandir",
+      "displayName": {
+        "text": "Ram Mandir Bhubaneswar",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Janpath, Kharvela Nagar, Bhubaneswar, Odisha 751001",
+      "location": {
+        "latitude": 20.2867,
+        "longitude": 85.8415
+      },
+      "types": [
+        "hindu_temple",
+        "place_of_worship"
+      ],
+      "primaryType": "hindu_temple",
+      "editorialSummary": {
+        "text": "Prominent city temple with tall spires on Janpath.",
+        "languageCode": "en"
+      },
+      "rating": 4.6,
+      "userRatingCount": 19854,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 6:00 AM – 9:00 PM",
+          "Tuesday: 6:00 AM – 9:00 PM",
+          "Wednesday: 6:00 AM – 9:00 PM",
+          "Thursday: 6:00 AM – 9:00 PM",
+          "Friday: 6:00 AM – 9:00 PM",
+          "Saturday: 6:00 AM – 9:00 PM",
+          "Sunday: 6:00 AM – 9:00 PM"
+        ]
+      },
+      "photos": [
+        {
+          "name": "places/mock_g_ram_mandir/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_barunei",
+      "displayName": {
+        "text": "Barunei Hill",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Khordha, Odisha 752055",
+      "location": {
+        "latitude": 20.163,
+        "longitude": 85.636
+      },
+      "types": [
+        "hiking_area",
+        "tourist_attraction"
+      ],
+      "primaryType": "hiking_area",
+      "editorialSummary": {
+        "text": "Hill with a temple, stone steps and a seasonal stream for short hikes.",
+        "languageCode": "en"
+      },
+      "rating": 4.4,
+      "userRatingCount": 980,
+      "businessStatus": "OPERATIONAL",
+      "photos": [
+        {
+          "name": "places/mock_g_barunei/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_puri_beach",
+      "displayName": {
+        "text": "Puri Beach",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Puri, Odisha 752001",
+      "location": {
+        "latitude": 19.7983,
+        "longitude": 85.8249
+      },
+      "types": [
+        "tourist_attraction",
+        "beach"
+      ],
+      "primaryType": "beach",
+      "editorialSummary": {
+        "text": "Long sandy beach on the Bay of Bengal (about 55 km from Bhubaneswar).",
+        "languageCode": "en"
+      },
+      "rating": 4.3,
+      "userRatingCount": 52011,
+      "businessStatus": "OPERATIONAL",
+      "photos": [
+        {
+          "name": "places/mock_g_puri_beach/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_jagannath",
+      "displayName": {
+        "text": "Shree Jagannath Temple Puri",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Grand Road, Puri, Odisha 752001",
+      "location": {
+        "latitude": 19.8048,
+        "longitude": 85.818
+      },
+      "types": [
+        "hindu_temple",
+        "tourist_attraction"
+      ],
+      "primaryType": "hindu_temple",
+      "editorialSummary": {
+        "text": "12th-century temple of Lord Jagannath and starting point of the Rath Yatra.",
+        "languageCode": "en"
+      },
+      "rating": 4.7,
+      "userRatingCount": 210334,
+      "businessStatus": "OPERATIONAL",
+      "photos": [
+        {
+          "name": "places/mock_g_jagannath/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_konark",
+      "displayName": {
+        "text": "Konark Sun Temple",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Konark, Odisha 752111",
+      "location": {
+        "latitude": 19.8876,
+        "longitude": 86.0945
+      },
+      "types": [
+        "hindu_temple",
+        "historical_landmark"
+      ],
+      "primaryType": "historical_landmark",
+      "editorialSummary": {
+        "text": "13th-century chariot-shaped temple, a UNESCO World Heritage Site.",
+        "languageCode": "en"
+      },
+      "rating": 4.6,
+      "userRatingCount": 98012,
+      "businessStatus": "OPERATIONAL",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: 6:00 AM – 6:00 PM",
+          "Tuesday: 6:00 AM – 6:00 PM",
+          "Wednesday: 6:00 AM – 6:00 PM",
+          "Thursday: 6:00 AM – 6:00 PM",
+          "Friday: 6:00 AM – 6:00 PM",
+          "Saturday: 6:00 AM – 6:00 PM",
+          "Sunday: 6:00 AM – 6:00 PM"
+        ]
+      },
+      "reviews": [
+        {
+          "name": "places/mock_g_konark/reviews/r0",
+          "rating": 5,
+          "text": {
+            "text": "Breathtaking architecture. Hire an ASI guide to understand the carvings.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-01-10T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 1",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_konark/reviews/r1",
+          "rating": 4,
+          "text": {
+            "text": "Very hot in the afternoon, go early. Crowded during the December festival.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-02-11T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 2",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_konark/reviews/r2",
+          "rating": 4,
+          "text": {
+            "text": "Clean and well maintained campus, ticket counter queue is long.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-03-12T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 3",
+            "uri": ""
+          }
+        }
+      ],
+      "photos": [
+        {
+          "name": "places/mock_g_konark/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mock_g_no_name",
+      "location": {
+        "latitude": 20.27,
+        "longitude": 85.84
+      },
+      "types": [
+        "park"
+      ]
+    },
+    {
+      "id": "mock_g_bad_coords",
+      "displayName": {
+        "text": "Broken Coordinates Park"
+      },
+      "location": {
+        "latitude": 95.0,
+        "longitude": 85.84
+      },
+      "types": [
+        "park"
+      ]
+    },
+    {
+      "id": "mock_g_closed",
+      "displayName": {
+        "text": "Old Toy Train Park"
+      },
+      "location": {
+        "latitude": 20.2801,
+        "longitude": 85.8301
+      },
+      "types": [
+        "amusement_park"
+      ],
+      "businessStatus": "CLOSED_PERMANENTLY",
+      "rating": 3.1,
+      "userRatingCount": 40
+    },
+    {
+      "id": "mock_g_nandankanan",
+      "displayName": {
+        "text": "Nandankanan Zoological Park",
+        "languageCode": "en"
+      },
+      "formattedAddress": "Barang, Bhubaneswar, Odisha 754005",
+      "location": {
+        "latitude": 20.3958,
+        "longitude": 85.8189
+      },
+      "types": [
+        "zoo",
+        "tourist_attraction"
+      ],
+      "primaryType": "zoo",
+      "editorialSummary": {
+        "text": "Large zoo and botanical garden beside Kanjia lake with white tigers and a safari.",
+        "languageCode": "en"
+      },
+      "rating": 4.4,
+      "userRatingCount": 61234,
+      "businessStatus": "OPERATIONAL",
+      "websiteUri": "https://nandankanan.org",
+      "regularOpeningHours": {
+        "weekdayDescriptions": [
+          "Monday: Closed",
+          "Tuesday: 7:30 AM – 5:30 PM",
+          "Wednesday: 7:30 AM – 5:30 PM",
+          "Thursday: 7:30 AM – 5:30 PM",
+          "Friday: 7:30 AM – 5:30 PM",
+          "Saturday: 7:30 AM – 5:30 PM",
+          "Sunday: 7:30 AM – 5:30 PM"
+        ]
+      },
+      "reviews": [
+        {
+          "name": "places/mock_g_nandankanan/reviews/r0",
+          "rating": 5,
+          "text": {
+            "text": "White tigers dekhne layak hai. Kids loved the safari, bahut maza aaya.",
+            "languageCode": "hi-Latn"
+          },
+          "publishTime": "2026-01-10T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 1",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_nandankanan/reviews/r1",
+          "rating": 4,
+          "text": {
+            "text": "Huge campus and green, but very crowded on Sundays. Carry water.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-02-11T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 2",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_nandankanan/reviews/r2",
+          "rating": 3,
+          "text": {
+            "text": "Nice place but food stalls are poor and toilets not clean.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-03-12T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 3",
+            "uri": ""
+          }
+        },
+        {
+          "name": "places/mock_g_nandankanan/reviews/r3",
+          "rating": 5,
+          "text": {
+            "text": "Best zoo in Odisha. Go early morning, it is calm and animals are active.",
+            "languageCode": "en"
+          },
+          "publishTime": "2026-04-13T09:30:00Z",
+          "authorAttribution": {
+            "displayName": "Mock Reviewer 4",
+            "uri": ""
+          }
+        }
+      ],
+      "goodForChildren": true,
+      "photos": [
+        {
+          "name": "places/mock_g_nandankanan/photos/mock1",
+          "widthPx": 1200,
+          "heightPx": 800,
+          "authorAttributions": [
+            {
+              "displayName": "Mock Photographer"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

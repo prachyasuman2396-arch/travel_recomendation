@@ -1,0 +1,666 @@
+{
+ "_notice": "Offline evaluation scenarios over MOCK data + real curated facts. Expectations are about rules and grounding, not taste.",
+ "scenarios": [
+  {
+   "id": "temples_basic",
+   "description": "Temple lover, plenty of time",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "religious",
+     "historical"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 6,
+    "client_datetime": "2026-11-25T09:00:00+05:30"
+   },
+   "expect": {
+    "include_any": [
+     "Lingaraj Temple",
+     "Mukteswar Temple",
+     "Rajarani Temple"
+    ],
+    "min_results": 3
+   }
+  },
+  {
+   "id": "non_hindu_lingaraj",
+   "description": "Non-Hindu visitor: Lingaraj may appear but must carry the verified entry notice",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "religious",
+     "historical"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 6,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "visitor": {
+     "non_hindu_visitor": true
+    }
+   },
+   "expect": {
+    "notice_if_present": {
+     "Lingaraj Temple": "entry"
+    }
+   }
+  },
+  {
+   "id": "non_hindu_nl",
+   "description": "Non-Hindu stated only in free text (English)",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "religious"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 5,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "natural_language": "I'm not Hindu but love old temple architecture"
+   },
+   "expect": {
+    "understood_any": [
+     "temple entry rules for non-Hindu visitors"
+    ],
+    "notice_if_present": {
+     "Lingaraj Temple": "entry"
+    }
+   }
+  },
+  {
+   "id": "puri_non_hindu",
+   "description": "Non-Hindu near Puri: Jagannath (verified no entry, no viewing platform) must be excluded",
+   "profile": {
+    "latitude": 19.8135,
+    "longitude": 85.8312,
+    "interests": [
+     "religious",
+     "beaches"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 6,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "visitor": {
+     "non_hindu_visitor": true
+    }
+   },
+   "expect": {
+    "exclude": [
+     "Shree Jagannath Temple Puri"
+    ],
+    "include_any": [
+     "Puri Beach"
+    ]
+   }
+  },
+  {
+   "id": "puri_hindu",
+   "description": "Hindu visitor near Puri: Jagannath allowed",
+   "profile": {
+    "latitude": 19.8135,
+    "longitude": 85.8312,
+    "interests": [
+     "religious"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 6,
+    "client_datetime": "2026-11-25T09:00:00+05:30"
+   },
+   "expect": {
+    "include_any": [
+     "Shree Jagannath Temple Puri"
+    ]
+   }
+  },
+  {
+   "id": "konark_foreign_budget",
+   "description": "Foreigner with ₹200 cap: Konark (verified ₹600 foreign fee) excluded",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "historical"
+    ],
+    "max_distance_km": 70,
+    "available_hours": 10,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "visitor": {
+     "foreign_national": true,
+     "max_entry_fee_inr": 200
+    }
+   },
+   "expect": {
+    "exclude": [
+     "Konark Sun Temple"
+    ]
+   }
+  },
+  {
+   "id": "konark_indian_budget",
+   "description": "Indian with ₹200 cap: Konark (₹40) allowed",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "historical"
+    ],
+    "max_distance_km": 70,
+    "available_hours": 10,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "visitor": {
+     "max_entry_fee_inr": 200
+    }
+   },
+   "expect": {
+    "include_any": [
+     "Konark Sun Temple"
+    ]
+   }
+  },
+  {
+   "id": "monday_museums",
+   "description": "Monday: museums closed on Mondays must not be recommended",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "cultural",
+     "historical"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 5,
+    "client_datetime": "2026-11-23T09:00:00+05:30"
+   },
+   "expect": {
+    "exclude": [
+     "Odisha State Museum",
+     "Museum of Tribal Arts and Artefacts",
+     "Regional Science Centre"
+    ]
+   }
+  },
+  {
+   "id": "monday_zoo",
+   "description": "Monday with kids: Nandankanan closed on Mondays",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "wildlife",
+     "nature"
+    ],
+    "max_distance_km": 20,
+    "available_hours": 5,
+    "client_datetime": "2026-11-23T09:00:00+05:30",
+    "visitor": {
+     "with_children": true
+    }
+   },
+   "expect": {
+    "exclude": [
+     "Nandankanan Zoological Park"
+    ]
+   }
+  },
+  {
+   "id": "tuesday_zoo_kids",
+   "description": "Tuesday with kids: zoo open and kid-friendly",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "wildlife",
+     "nature"
+    ],
+    "max_distance_km": 20,
+    "available_hours": 5,
+    "client_datetime": "2026-11-24T10:00:00+05:30",
+    "visitor": {
+     "with_children": true
+    }
+   },
+   "expect": {
+    "include_any": [
+     "Nandankanan Zoological Park"
+    ]
+   }
+  },
+  {
+   "id": "avoid_temples_hinglish",
+   "description": "Hinglish negation: 'mandir nahi chahiye'",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "nature",
+     "religious"
+    ],
+    "max_distance_km": 20,
+    "available_hours": 4,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "natural_language": "mandir nahi chahiye, kuch nature wala dikhao"
+   },
+   "expect": {
+    "categories_none": [
+     "religious"
+    ],
+    "understood_any": [
+     "no religious"
+    ]
+   }
+  },
+  {
+   "id": "avoid_shopping",
+   "description": "Explicit avoided category via profile",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "shopping",
+     "cultural"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 4,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "visitor": {
+     "avoid_categories": [
+      "shopping"
+     ]
+    }
+   },
+   "expect": {
+    "categories_none": [
+     "shopping"
+    ]
+   }
+  },
+  {
+   "id": "time_short_hindi",
+   "description": "'sirf do ghante' → 2 hours, itinerary fits",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "historical"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 6,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "natural_language": "sirf do ghante hain"
+   },
+   "expect": {
+    "understood_any": [
+     "2 hours available"
+    ],
+    "itinerary_within_hours": 2
+   }
+  },
+  {
+   "id": "time_words",
+   "description": "'around five hours' parsed",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "nature"
+    ],
+    "max_distance_km": 20,
+    "available_hours": 2,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "natural_language": "we have around five hours"
+   },
+   "expect": {
+    "understood_any": [
+     "5 hours available"
+    ]
+   }
+  },
+  {
+   "id": "kartika_crowds",
+   "description": "Kartika Purnima, avoid crowds: event surfaced with crowd notices",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "religious",
+     "historical"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 4,
+    "client_datetime": "2026-11-24T09:00:00+05:30",
+    "visitor": {
+     "avoid_crowds": true
+    }
+   },
+   "expect": {
+    "event_any": [
+     "Kartika Purnima / Boita Bandana"
+    ]
+   }
+  },
+  {
+   "id": "kartika_eve",
+   "description": "Day before Kartika Purnima: event mentioned (crowds build early)",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "religious"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 4,
+    "client_datetime": "2026-11-23T09:00:00+05:30"
+   },
+   "expect": {
+    "event_any": [
+     "Kartika Purnima / Boita Bandana"
+    ]
+   }
+  },
+  {
+   "id": "konark_dance",
+   "description": "Konark Dance Festival week near Konark",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "cultural",
+     "historical"
+    ],
+    "max_distance_km": 70,
+    "available_hours": 10,
+    "client_datetime": "2026-12-02T15:00:00+05:30"
+   },
+   "expect": {
+    "event_any": [
+     "Konark Dance Festival"
+    ]
+   }
+  },
+  {
+   "id": "rath_yatra_puri",
+   "description": "Rath Yatra day in Puri (monsoon)",
+   "profile": {
+    "latitude": 19.8135,
+    "longitude": 85.8312,
+    "interests": [
+     "religious",
+     "beaches"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 6,
+    "client_datetime": "2027-07-05T08:00:00+05:30",
+    "visitor": {
+     "avoid_crowds": true
+    }
+   },
+   "expect": {
+    "event_any": [
+     "Puri Rath Yatra"
+    ],
+    "season": "Monsoon"
+   }
+  },
+  {
+   "id": "monsoon_waterfalls",
+   "description": "Monsoon season label",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "nature"
+    ],
+    "max_distance_km": 30,
+    "available_hours": 5,
+    "client_datetime": "2027-08-10T09:00:00+05:30"
+   },
+   "expect": {
+    "season": "Monsoon"
+   }
+  },
+  {
+   "id": "summer_heat",
+   "description": "Summer season label",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "nature",
+     "parks_gardens"
+    ],
+    "max_distance_km": 20,
+    "available_hours": 4,
+    "client_datetime": "2027-05-12T10:00:00+05:30"
+   },
+   "expect": {
+    "season": "Summer"
+   }
+  },
+  {
+   "id": "winter_outdoor",
+   "description": "Winter is ideal for outdoor sightseeing",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "nature",
+     "adventure"
+    ],
+    "max_distance_km": 30,
+    "available_hours": 6,
+    "client_datetime": "2027-01-13T09:00:00+05:30"
+   },
+   "expect": {
+    "season": "Winter",
+    "min_results": 2
+   }
+  },
+  {
+   "id": "wheelchair",
+   "description": "Wheelchair user: accessibility notices, no verified-inaccessible places",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "historical",
+     "nature"
+    ],
+    "max_distance_km": 20,
+    "available_hours": 5,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "visitor": {
+     "wheelchair_user": true
+    }
+   },
+   "expect": {
+    "min_results": 1
+   }
+  },
+  {
+   "id": "elderly_nl",
+   "description": "Elderly parents mentioned in text",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "religious"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 4,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "natural_language": "travelling with my elderly parents, not much walking"
+   },
+   "expect": {
+    "understood_any": [
+     "travelling with elderly people"
+    ]
+   }
+  },
+  {
+   "id": "foreign_nl",
+   "description": "Foreign visitor stated in text",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "historical"
+    ],
+    "max_distance_km": 70,
+    "available_hours": 10,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "natural_language": "we are tourists from Germany"
+   },
+   "expect": {
+    "understood_any": [
+     "foreign-visitor ticket prices"
+    ]
+   }
+  },
+  {
+   "id": "food",
+   "description": "Food only",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "food"
+    ],
+    "max_distance_km": 10,
+    "available_hours": 2,
+    "client_datetime": "2026-11-25T13:00:00+05:30"
+   },
+   "expect": {
+    "include_any": [
+     "Dalma Restaurant",
+     "Ekamra Kanan Cafe"
+    ]
+   }
+  },
+  {
+   "id": "tight_radius",
+   "description": "2 km radius: nothing beyond 2 km",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "religious",
+     "cultural",
+     "food"
+    ],
+    "max_distance_km": 2,
+    "available_hours": 3,
+    "client_datetime": "2026-11-25T09:00:00+05:30"
+   },
+   "expect": {
+    "min_results": 1
+   }
+  },
+  {
+   "id": "lake_synonym",
+   "description": "'sagar'/lake semantic match",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "nature"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 3,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "natural_language": "peaceful lake or sagar to sit by"
+   },
+   "expect": {
+    "include_any": [
+     "Bindu Sagar Lake"
+    ]
+   }
+  },
+  {
+   "id": "buddhist_peace",
+   "description": "Peace pagoda via synonym (shanti/stupa)",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "religious",
+     "historical"
+    ],
+    "max_distance_km": 20,
+    "available_hours": 4,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "natural_language": "buddhist peace pagoda with a view"
+   },
+   "expect": {
+    "include_any": [
+     "Dhauli Shanti Stupa"
+    ]
+   }
+  },
+  {
+   "id": "caves",
+   "description": "Jain caves",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "historical"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 3,
+    "client_datetime": "2026-11-25T09:00:00+05:30",
+    "natural_language": "ancient rock-cut caves"
+   },
+   "expect": {
+    "include_any": [
+     "Udayagiri and Khandagiri Caves"
+    ]
+   }
+  },
+  {
+   "id": "full_combo",
+   "description": "Non-Hindu foreigner + elderly + avoid crowds + 4h on Kartika eve (the README example)",
+   "profile": {
+    "latitude": 20.2961,
+    "longitude": 85.8245,
+    "interests": [
+     "historical",
+     "religious"
+    ],
+    "max_distance_km": 15,
+    "available_hours": 5,
+    "client_datetime": "2026-11-23T09:00:00+05:30",
+    "natural_language": "I'm not Hindu, visiting from abroad with my elderly mother. Want history, avoid crowds, only 4 hours"
+   },
+   "expect": {
+    "understood_any": [
+     "avoiding crowds",
+     "4 hours available"
+    ],
+    "notice_if_present": {
+     "Lingaraj Temple": "entry"
+    },
+    "itinerary_within_hours": 4
+   }
+  },
+  {
+   "id": "nothing_in_range",
+   "description": "Remote point with no data: empty, not invented",
+   "profile": {
+    "latitude": 21.5,
+    "longitude": 84.0,
+    "interests": [
+     "nature"
+    ],
+    "max_distance_km": 5,
+    "available_hours": 3,
+    "client_datetime": "2026-11-25T09:00:00+05:30"
+   },
+   "expect": {
+    "max_results": 0
+   }
+  }
+ ]
+}

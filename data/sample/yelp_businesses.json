@@ -1,0 +1,256 @@
+{
+  "_notice": "MOCK DATA for offline development. Coordinates approximate; descriptions, ratings, reviews and photos are synthetic and must never be presented as real.",
+  "businesses": [
+    {
+      "id": "mock_y_nandankanan",
+      "name": "Nandankanan Zoo",
+      "coordinates": {
+        "latitude": 20.3965,
+        "longitude": 85.8178
+      },
+      "categories": [
+        {
+          "alias": "zoos",
+          "title": "Zoos"
+        }
+      ],
+      "rating": 4.5,
+      "review_count": 38,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_nandankanan",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    },
+    {
+      "id": "mock_y_lingaraja",
+      "name": "Lingaraja Temple",
+      "coordinates": {
+        "latitude": 20.2384,
+        "longitude": 85.8335
+      },
+      "categories": [
+        {
+          "alias": "hindu_temples",
+          "title": "Hindu Temples"
+        },
+        {
+          "alias": "landmarks",
+          "title": "Landmarks"
+        }
+      ],
+      "rating": 4.5,
+      "review_count": 51,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_lingaraja",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    },
+    {
+      "id": "mock_y_ekamra_cafe",
+      "name": "Ekamra Kanan Cafe",
+      "coordinates": {
+        "latitude": 20.3047,
+        "longitude": 85.8182
+      },
+      "categories": [
+        {
+          "alias": "cafes",
+          "title": "Cafes"
+        },
+        {
+          "alias": "coffee",
+          "title": "Coffee"
+        }
+      ],
+      "rating": 3.8,
+      "review_count": 12,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_ekamra_cafe",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    },
+    {
+      "id": "mock_y_dalma",
+      "name": "Dalma Restaurant",
+      "coordinates": {
+        "latitude": 20.296,
+        "longitude": 85.8442
+      },
+      "categories": [
+        {
+          "alias": "indpak",
+          "title": "Indpak"
+        },
+        {
+          "alias": "restaurants",
+          "title": "Restaurants"
+        }
+      ],
+      "rating": 4.4,
+      "review_count": 64,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_dalma",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    },
+    {
+      "id": "mock_y_state_museum",
+      "name": "Odisha State Museum",
+      "coordinates": {
+        "latitude": 20.2578,
+        "longitude": 85.8416
+      },
+      "categories": [
+        {
+          "alias": "museums",
+          "title": "Museums"
+        }
+      ],
+      "rating": 4.0,
+      "review_count": 9,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_state_museum",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    },
+    {
+      "id": "mock_y_udaygiri",
+      "name": "Udayagiri Caves",
+      "coordinates": {
+        "latitude": 20.2633,
+        "longitude": 85.7869
+      },
+      "categories": [
+        {
+          "alias": "landmarks",
+          "title": "Landmarks"
+        },
+        {
+          "alias": "hiking",
+          "title": "Hiking"
+        }
+      ],
+      "rating": 4.5,
+      "review_count": 22,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_udaygiri",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    },
+    {
+      "id": "mock_y_dhauli_pagoda",
+      "name": "Dhauli Peace Pagoda",
+      "coordinates": {
+        "latitude": 20.1929,
+        "longitude": 85.8391
+      },
+      "categories": [
+        {
+          "alias": "landmarks",
+          "title": "Landmarks"
+        },
+        {
+          "alias": "buddhist_temples",
+          "title": "Buddhist Temples"
+        }
+      ],
+      "rating": 4.5,
+      "review_count": 17,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_dhauli_pagoda",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    },
+    {
+      "id": "mock_y_esplanade",
+      "name": "Esplanade One",
+      "coordinates": {
+        "latitude": 20.291,
+        "longitude": 85.8583
+      },
+      "categories": [
+        {
+          "alias": "shoppingcenters",
+          "title": "Shoppingcenters"
+        }
+      ],
+      "rating": 4.1,
+      "review_count": 30,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_esplanade",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    },
+    {
+      "id": "mock_y_rajarani_far",
+      "name": "Raja Rani Temple",
+      "coordinates": {
+        "latitude": 20.2474,
+        "longitude": 85.8436
+      },
+      "categories": [
+        {
+          "alias": "landmarks",
+          "title": "Landmarks"
+        }
+      ],
+      "rating": 4.4,
+      "review_count": 11,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_rajarani_far",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    },
+    {
+      "id": "mock_y_no_coords",
+      "name": "Mystery Business",
+      "coordinates": {
+        "latitude": null,
+        "longitude": null
+      },
+      "categories": [
+        {
+          "alias": "restaurants",
+          "title": "Restaurants"
+        }
+      ],
+      "rating": 3.0,
+      "review_count": 2,
+      "is_closed": false,
+      "url": "https://example.invalid/yelp/mock_y_no_coords",
+      "location": {
+        "display_address": [
+          "Bhubaneswar, Odisha"
+        ]
+      }
+    }
+  ],
+  "total": 10
+}

@@ -1,0 +1,52 @@
+{
+  "_notice": "MOCK DATA for offline development. Coordinates approximate; descriptions, ratings, reviews and photos are synthetic and must never be presented as real. Page texts are short paraphrases written for testing, not copies of Wikipedia.",
+  "pages": {
+    "Lingaraja Temple": {
+      "title": "Lingaraja Temple",
+      "extract": "Lingaraja Temple is an 11th-century Hindu temple in Bhubaneswar dedicated to Harihara.",
+      "text": "Lingaraja Temple is the largest temple in Bhubaneswar and a major pilgrimage centre. The temple compound is not open to non-Hindus, but there is a viewing platform beside the wall. Mobile phones and cameras are not allowed inside the temple. Large crowds gather during Maha Shivaratri. Visitors are expected to dress modestly.",
+      "url": "https://en.wikipedia.org/wiki/Lingaraja_Temple",
+      "license": "CC BY-SA 4.0",
+      "image": null
+    },
+    "Parashurameshvara Temple": {
+      "title": "Parashurameshvara Temple",
+      "extract": "Parashurameshvara Temple is a 7th-century Shiva temple in Bhubaneswar.",
+      "text": "Parashurameshvara Temple is one of the oldest surviving temples in Bhubaneswar. It is a small temple and a visit usually takes about 30 minutes. Photography of the exterior carvings is allowed.",
+      "url": "https://en.wikipedia.org/wiki/Parashurameshvara_Temple",
+      "license": "CC BY-SA 4.0",
+      "image": null
+    },
+    "Jagannath Temple, Puri": {
+      "title": "Jagannath Temple, Puri",
+      "extract": "The Jagannath Temple in Puri is a 12th-century temple dedicated to Jagannath.",
+      "text": "The Jagannath Temple is one of the Char Dham pilgrimage sites. Entry inside the temple is allowed only to Hindus. The annual Rath Yatra chariot festival starts from this temple and draws very large crowds. Mobile phones, cameras and leather items are not allowed inside the temple.",
+      "url": "https://en.wikipedia.org/wiki/Jagannath_Temple,_Puri",
+      "license": "CC BY-SA 4.0",
+      "image": null
+    },
+    "Konark Sun Temple": {
+      "title": "Konark Sun Temple",
+      "extract": "Konark Sun Temple is a 13th-century temple built as a giant stone chariot for the Sun god.",
+      "text": "Konark Sun Temple is a UNESCO World Heritage Site managed by the Archaeological Survey of India. The entry fee is Rs 40 for Indian visitors and Rs 600 for foreign visitors. The Konark Dance Festival is held here every December. The site is open from sunrise to sunset and a visit usually takes about 2 hours.",
+      "url": "https://en.wikipedia.org/wiki/Konark_Sun_Temple",
+      "license": "CC BY-SA 4.0",
+      "image": null
+    },
+    "Udayagiri and Khandagiri Caves": {
+      "title": "Udayagiri and Khandagiri Caves",
+      "extract": "Udayagiri and Khandagiri are partly natural and partly artificial caves of religious and historical importance near Bhubaneswar.",
+      "text": "The caves were carved for Jain monks in the 2nd century BCE. Reaching the upper caves involves climbing steep steps, so the site is not wheelchair accessible. Monkeys are common, so visitors should keep food packed away.",
+      "url": "https://en.wikipedia.org/wiki/Udayagiri_and_Khandagiri_Caves",
+      "license": "CC BY-SA 4.0",
+      "image": null
+    }
+  },
+  "wikidata_titles": {
+    "Q_mock_lingaraj": "Lingaraja Temple",
+    "Q_mock_parasurameswara": "Parashurameshvara Temple",
+    "Q_mock_jagannath": "Jagannath Temple, Puri",
+    "Q_mock_konark": "Konark Sun Temple",
+    "Q_mock_udayagiri": "Udayagiri and Khandagiri Caves"
+  }
+}
