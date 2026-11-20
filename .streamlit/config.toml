@@ -12,7 +12,7 @@ showSidebarNavigation = false
 
 [theme]
 base = "light"
-primaryColor = "#c2410c"
-backgroundColor = "#fbf8f3"
-secondaryBackgroundColor = "#f1ebe1"
-textColor = "#1f2933"
+primaryColor = "#0F5C63"
+backgroundColor = "#FBF7F1"
+secondaryBackgroundColor = "#F4EDE2"
+textColor = "#1F2A2E"
