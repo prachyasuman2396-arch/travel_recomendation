@@ -643,13 +643,18 @@ def card(item: RecommendationItem, badge: str | None, minutes: int, feature: boo
                        for n in item.notices if n.severity == "critical")
     more = []
     rs = item.review_summary
+    say_html = ""
     if rs and (rs.likes or rs.dislikes):
         lines = [f'<div class="l"><b class="p">+</b><span>{esc(x)}</span></div>' for x in rs.likes]
         lines += [f'<div class="l"><b class="m">−</b><span>{esc(x)}</span></div>' for x in rs.dislikes]
         source = "Google reviews" if "google_places" in f.rating_sources else "reviews"
         how = " · AI summary" if rs.method == "ai" else ""
-        more.append(f'<div class="say"><div class="t">What visitors say</div>{"".join(lines)}'
+        say_html = (f'<div class="say"><div class="t">What visitors say</div>{"".join(lines)}'
                     f'<div class="src">From {rs.based_on} {source}{how}</div></div>')
+    elif item.review_insights:
+        insights = "".join(f'<div class="l"><span>{esc(x)}</span></div>' for x in item.review_insights[:2])
+        say_html = f'<div class="say"><div class="t">Visitor Highlights</div>{insights}</div>'
+
     if item.opening and item.opening.hours_today:
         more.append(f"<div>Hours today: {esc(item.opening.hours_today)}</div>")
     fee = next((n.text for n in item.notices if n.kind == "fee"), None)
@@ -675,7 +680,7 @@ def card(item: RecommendationItem, badge: str | None, minutes: int, feature: boo
     eyebrow = '<div class="eyebrow">Start here</div>' if feature else ""
     return (f'<article class="card{" feature" if feature else ""}">{art(item, badge)}<div class="body">{eyebrow}'
             f'<h3>{esc(item.name)}</h3><div class="meta">{meta_html}</div><div class="chips">{"".join(chips)}</div>'
-            f'<p class="why">{esc(item.reason)}</p>{critical}{details}<div class="actions">{"".join(actions)}</div>'
+            f'<p class="why">{esc(item.reason)}</p>{say_html}{critical}{details}<div class="actions">{"".join(actions)}</div>'
             "</div></article>")
 
 
