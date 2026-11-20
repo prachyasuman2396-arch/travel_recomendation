@@ -76,6 +76,10 @@ class OpenMeteoProvider:
 
     def __init__(self, http: httpx.AsyncClient, api_key: str | None = None, max_attempts: int = 1) -> None:
         self._http = http
+        # If a Google API key (starts with AIza) or non-Open-Meteo key is provided, ignore it
+        # so Open-Meteo uses the free public endpoints without failing with HTTP 400.
+        if api_key and (api_key.startswith("AIza") or len(api_key) > 35):
+            api_key = None
         self._key = api_key
         self._attempts = max_attempts
 
@@ -88,7 +92,16 @@ class OpenMeteoProvider:
 
         async def call() -> dict:
             request = self._http.build_request("GET", url, params=params)
-            return (await send(self._http, request, self.name)).json()
+            try:
+                return (await send(self._http, request, self.name)).json()
+            except Exception:
+                # If commercial URL with key fails, fallback immediately to free endpoint
+                if url != FREE_URL:
+                    fallback_params = dict(params)
+                    fallback_params.pop("apikey", None)
+                    fallback_req = self._http.build_request("GET", FREE_URL, params=fallback_params)
+                    return (await send(self._http, fallback_req, self.name)).json()
+                raise
 
         payload = await with_retries(call, attempts=self._attempts, operation="weather.open_meteo")
         return parse_open_meteo(payload, source=self.name, is_mock=False, latitude=latitude,
@@ -103,7 +116,15 @@ class OpenMeteoProvider:
 
         async def call() -> dict:
             request = self._http.build_request("GET", url, params=params)
-            return (await send(self._http, request, "open_meteo_air")).json()
+            try:
+                return (await send(self._http, request, "open_meteo_air")).json()
+            except Exception:
+                if url != AQ_FREE_URL:
+                    fallback_params = dict(params)
+                    fallback_params.pop("apikey", None)
+                    fallback_req = self._http.build_request("GET", AQ_FREE_URL, params=fallback_params)
+                    return (await send(self._http, fallback_req, "open_meteo_air")).json()
+                raise
 
         return parse_air_quality(await with_retries(call, attempts=self._attempts, operation="weather.air_quality"))
 
